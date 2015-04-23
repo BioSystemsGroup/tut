@@ -32,8 +32,11 @@ public class Main {
       if (pf == null) throw new RuntimeException("Could not find default parameters file in CLASSPATH.");
     }
     tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(pf);
-    if (keyExists("-wpf",args)) p.writeYourself();
-    
+    if (keyExists("-epf",args)) {
+      System.out.println(p.describe());
+      System.exit(-1);
+    }
+
     tut.ctrl.Batch b = new tut.ctrl.Batch(p);
     if (useGUI) {
       gui = new tut.ctrl.GUI(b);
@@ -41,6 +44,7 @@ public class Main {
     } else {
       b.load();
       b.go();
+      b.finish();
     }
   }
   

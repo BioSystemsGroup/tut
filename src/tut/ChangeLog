@@ -1,0 +1,23 @@
+2015-04-23  gepr  <gepr@tempusdictum.com>
+
+	* view/Observer.java (Constructor): Take a Parameters instance as an argument.
+	(init(),step()): Output percentage complete to the stdout.
+
+	* model/Model.java (pRNG): Move from Batch to Model.
+
+	* ctrl/Parameters.java (writeYourself(), describe()): Change so that we now only output a JSON String which is either written to a file or echoed to stdout by Batch or Main, respectively.
+
+	* ctrl/GUI.java (finish()): Called by GUI when stop button is hit.
+
+	* ctrl/Batch.java (setupOutput()): Create a (date-named) directory to hold all the output.  Change stdout output to write to an output.log file in that directory.  Write the Parameters to a JSON file in that directory.
+	(finish()): New method executed when the stop button is hit in the GUI or called directly by Main.main().
+
+	* ctrl/Parameters.java (writeYourself()): Put version and current time in the JSON file name.
+	(readOneOfYou()): Use an InputStream instead of a File.
+
+	* Main.java (main()): Add command line option to pass in a parameter file.  If no parameter file name is passed in, use the default one in the jar file.
+	(VERSION): Add a final class variable to log the version being executed.
+	("-epf"): Change -wpf to -epf to mean "echo parameter file", which echoes the parameter file to the stdout.
+	
+
+

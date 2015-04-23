@@ -23,7 +23,7 @@ public class Comp implements sim.engine.Steppable {
   
   @Override
   public void step(sim.engine.SimState state) {
-    System.out.println("Comp:"+id+".step() - cycle = "+state.schedule.getSteps()+" "+describe());
+    tut.ctrl.Batch.log("Comp:"+id+".step() - cycle = "+state.schedule.getSteps()+" "+describe());
     state.schedule.scheduleOnce(this,tut.model.Model.SUB_ORDER);
   }
   public String describe() {

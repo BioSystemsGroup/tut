@@ -19,6 +19,7 @@ public class GUI extends sim.display.GUIState {
     console.setThreadPriority(1);
     console.setVisible(true);
   }
+  @Override
   public void start() {
     super.start();
     console.setWhenShouldPause(batch.params.cycleLimit);
@@ -26,6 +27,11 @@ public class GUI extends sim.display.GUIState {
   }
   public void load() {
     batch.load();
+  }
+  @Override
+  public void finish() {
+    super.finish();
+    batch.finish();
   }
   
   public void go() {

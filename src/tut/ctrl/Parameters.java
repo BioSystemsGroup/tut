@@ -17,18 +17,7 @@ public class Parameters {
   
   public Parameters() {
   }
-  
-  public void writeYourself() {
-    com.google.gson.Gson gson = new com.google.gson.Gson();
-    try {
-      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(tut.Main.MAJOR_VERSION+"-parameters-"+System.currentTimeMillis()+".json"));
-      version = tut.Main.MAJOR_VERSION+" Subversion"+tut.Main.MINOR_VERSION;
-      fw.write(gson.toJson(this));
-      fw.close();
-    } catch (java.io.IOException ioe) {
-      System.exit(-1);
-    }
-  }
+
   public static Parameters readOneOfYou(java.io.InputStream is) {
     Parameters p = null;
     com.google.gson.Gson gson = new com.google.gson.Gson();
@@ -36,5 +25,10 @@ public class Parameters {
     json = new java.util.Scanner(is).useDelimiter("\\A").next();
     if (json != null) p = gson.fromJson (json, Parameters.class); 
     return p;
+  }
+  
+  public String describe() {
+    com.google.gson.Gson gson = new com.google.gson.Gson();
+    return gson.toJson(this);
   }
 }
