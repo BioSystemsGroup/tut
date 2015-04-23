@@ -1,0 +1,8 @@
+A0 - 1 dosing compartment + 2 other compartments {Central, Peripheral}
+A1 - A0 + 1 additional elimination route
+A2 - A0 elimination shifted to Peripheral
+A3 - A0 + intra-individual variation
+     o One of the routes we could take is to move from the {1 smooth curve = 1
+       person+drug} to {multiple jagged curves = 1 person+drug}, which takes us
+       toward the ISLJ.  
+
