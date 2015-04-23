@@ -10,7 +10,8 @@
 package tut;
 
 public class Main {
-  public static final String VERSION = "TUT-v0.1-$Id$";
+  public static final String MAJOR_VERSION = "TUT-v0.1";
+  public static final String MINOR_VERSION = "$Id$";
   public static void main(String[] args) {
     // run the GUI?
     boolean useGUI = keyExists("-gui",args);
@@ -31,7 +32,7 @@ public class Main {
       if (pf == null) throw new RuntimeException("Could not find default parameters file in CLASSPATH.");
     }
     tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(pf);
-    
+    if (keyExists("-wpf",args)) p.writeYourself();
     
     tut.ctrl.Batch b = new tut.ctrl.Batch(p);
     if (useGUI) {

@@ -10,6 +10,7 @@
 package tut.ctrl;
 
 public class Parameters {
+  String version = "";
   public long seed = -Long.MAX_VALUE;
   public long cycleLimit = -Long.MAX_VALUE;
   public double k_a = Double.NaN, k_10 = Double.NaN, k_12 = Double.NaN, k_21 = Double.NaN;
@@ -20,7 +21,8 @@ public class Parameters {
   public void writeYourself() {
     com.google.gson.Gson gson = new com.google.gson.Gson();
     try {
-      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(tut.Main.VERSION+"-parameters-"+System.currentTimeMillis()+".json"));
+      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(tut.Main.MAJOR_VERSION+"-parameters-"+System.currentTimeMillis()+".json"));
+      version = tut.Main.MAJOR_VERSION+" Subversion"+tut.Main.MINOR_VERSION;
       fw.write(gson.toJson(this));
       fw.close();
     } catch (java.io.IOException ioe) {
