@@ -12,6 +12,7 @@ package tut.model;
 public class Model implements sim.engine.Steppable {
   public static int MODEL_ORDER = 10;
   public static int SUB_ORDER = 11;
+  public ec.util.MersenneTwisterFast pRNG = null;
   Comp central = null, periph = null;
   public double k_a = Double.NaN, k_10 = Double.NaN, k_12 = Double.NaN, k_21 = Double.NaN;
   tut.ctrl.Parameters params = null;
@@ -19,6 +20,7 @@ public class Model implements sim.engine.Steppable {
     if (p != null) params = p;
   }
   public void init(sim.engine.SimState state) {
+    pRNG = state.random;
     central = new Comp(0, 0.0, params.k_a, params.k_10);
     state.schedule.scheduleOnce(central, SUB_ORDER);
     periph = new Comp(1, 0.0, params.k_21, params.k_12);
@@ -27,7 +29,7 @@ public class Model implements sim.engine.Steppable {
 
   @Override
   public void step(sim.engine.SimState state) {
-    System.out.println("Model.step() - cycle = "+state.schedule.getSteps());
+    tut.ctrl.Batch.log("Model.step() - cycle = "+state.schedule.getSteps());
     state.schedule.scheduleOnce(this, MODEL_ORDER);
   }
 }
