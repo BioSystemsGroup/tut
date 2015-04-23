@@ -20,24 +20,19 @@ public class Parameters {
   public void writeYourself() {
     com.google.gson.Gson gson = new com.google.gson.Gson();
     try {
-      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File("parameters.json"));
+      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(tut.Main.VERSION+"-parameters-"+System.currentTimeMillis()+".json"));
       fw.write(gson.toJson(this));
       fw.close();
     } catch (java.io.IOException ioe) {
       System.exit(-1);
     }
   }
-  public static Parameters readOneOfYou() {
+  public static Parameters readOneOfYou(java.io.InputStream is) {
     Parameters p = null;
     com.google.gson.Gson gson = new com.google.gson.Gson();
     String json = null;
-    try {
-      json = new java.util.Scanner(new java.io.File("parameters.json")).useDelimiter("\\A").next();
-    } catch (java.io.FileNotFoundException fnfe) {
-      System.exit(-1);
-    }
+    json = new java.util.Scanner(is).useDelimiter("\\A").next();
     if (json != null) p = gson.fromJson (json, Parameters.class); 
-    
     return p;
   }
 }
