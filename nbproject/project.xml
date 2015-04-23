@@ -5,6 +5,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>tut</name>
             <source-roots>
+                <root id="src.cfg.dir"/>
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>

@@ -10,14 +10,29 @@
 package tut;
 
 public class Main {
-
-  /**
-   * @param args the command line arguments
-   */
+  public static final String VERSION = "TUT-v0.1-$Id$";
   public static void main(String[] args) {
+    // run the GUI?
     boolean useGUI = keyExists("-gui",args);
     tut.ctrl.GUI gui = null;
-    tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou();
+
+    // run with custom parameters?
+    java.io.InputStream pf = null;
+    String fileName = "/parameters.json";
+    if (keyExists("-pf",args)) {
+      fileName = argumentForKey("-pf", args, 0);
+      try {
+        pf = new java.io.FileInputStream(new java.io.File(fileName));
+      } catch (java.io.FileNotFoundException fnfe) { 
+        throw new RuntimeException(fnfe);
+      }
+    } else {
+      pf = Main.class.getResourceAsStream(fileName);
+      if (pf == null) throw new RuntimeException("Could not find default parameters file in CLASSPATH.");
+    }
+    tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(pf);
+    
+    
     tut.ctrl.Batch b = new tut.ctrl.Batch(p);
     if (useGUI) {
       gui = new tut.ctrl.GUI(b);
