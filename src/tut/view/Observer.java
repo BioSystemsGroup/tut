@@ -16,14 +16,18 @@ public class Observer implements sim.engine.Steppable {
   public Observer(tut.ctrl.Parameters p) {
     params = p;
   }
+  
   public void init(sim.engine.SimState state, tut.model.Model m) {
     if (m != null) subject = m;
     else throw new RuntimeException("Subject to Observe cannot be null.");
     System.out.print("Running:       ");
+    tut.ctrl.Batch.log("Cycle, Comp0, Comp1");
   }
   @Override
   public void step(sim.engine.SimState state) {
-    tut.ctrl.Batch.log("Observer.step() - cycle = "+state.schedule.getSteps()+": output goes here");
+    tut.ctrl.Batch.log(state.schedule.getSteps()*subject.cycle2time+", "
+            +subject.central.amount+", "
+            +subject.periph.amount);
     System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(params.cycleLimit-1)*100)+"% ");
     state.schedule.scheduleOnce(this, VIEW_ORDER);
   }

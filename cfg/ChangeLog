@@ -1,0 +1,4 @@
+2015-04-24  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json: Add dose and central compartment volume to default case (#1).
+

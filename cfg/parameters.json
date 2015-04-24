@@ -1,7 +1,9 @@
 {
   "version": "TUT-v0.1 Subversion$Id$",
   "seed": 1234567890,
-  "cycleLimit": 10,
+  "cycleLimit": 100,
+  "dose": 100.0,
+  "vc": 10.0,
   "k_a": 3.0,
   "k_10": 0.1,
   "k_12": 1.0,

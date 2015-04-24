@@ -13,6 +13,8 @@ public class Parameters {
   String version = "";
   public long seed = -Long.MAX_VALUE;
   public long cycleLimit = -Long.MAX_VALUE;
+  public double dose = Double.NaN;
+  public double vc = Double.NaN;
   public double k_a = Double.NaN, k_10 = Double.NaN, k_12 = Double.NaN, k_21 = Double.NaN;
   
   public Parameters() {

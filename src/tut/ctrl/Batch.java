@@ -38,7 +38,7 @@ public class Batch {
     while (state.schedule.getSteps() < cycleLimit) {
       state.schedule.step(state);
     }
-    log("Batch.go() - Done!");
+    //log("Batch.go() - Done!");
   }
   public void finish() {
     log.close();
@@ -47,7 +47,7 @@ public class Batch {
 
   private static java.io.PrintWriter log = null;
   public static void log(String entry) { log.println(entry); log.flush(); }
-  private static final String logName="output.log";
+  private static final String logName="output.csv";
   static void setupOutput(Parameters p) {
     String out_dir = null;
     final String DATE_FORMAT = "yyyy-MM-dd-HHmmss";

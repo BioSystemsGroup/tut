@@ -1,3 +1,7 @@
+2015-04-24  gepr  <gepr@tempusdictum.com>
+
+	* project.properties (java source): Insist on Java 8 so we can use lambda functions.
+
 2015-04-23  gepr  <gepr@tempusdictum.com>
 
 	* project.properties, project.xml (cfg): Add the cfg directory to the project.  Contents will be placed in the jar file at the root.
