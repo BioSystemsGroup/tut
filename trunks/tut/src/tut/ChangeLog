@@ -1,3 +1,18 @@
+2015-04-24  gepr  <gepr@tempusdictum.com>
+
+	* view/Observer.java (step()): Change output to CSV format.
+
+	* model/Model.java (k_*): Remove IVar flow rates and just reference params object.
+	(cycle2time): More samples from cycle to 1/4 cycles so that we get a smoother curve.
+	(init(),calcConstants()): Calculate the constants A,B,α,β. Set concentration functions for each compartment.
+	(concCent(),concPeriph()): Convenience methods for creating the 2 lambdas.
+
+	* model/Comp.java (k_in,k_out): Remove for 1st replication of 2 compartment model.
+	(func): Lambda function passed in from Model to calculate my amount (concentration).
+	(step()): Execute the lambda expression against current schedule time/cycle.
+
+	* ctrl/Parameters.java (dose,vc): Add dose and central volume to parameters.
+
 2015-04-23  gepr  <gepr@tempusdictum.com>
 
 	* view/Observer.java (Constructor): Take a Parameters instance as an argument.
