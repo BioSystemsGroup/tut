@@ -1,3 +1,7 @@
+2015-04-27  gepr  <gepr@tempusdictum.com>
+
+	* Main.java (MAJOR_VERSION): Bump.
+
 2015-04-24  gepr  <gepr@tempusdictum.com>
 
 	* view/Observer.java (step()): Change output to CSV format.
