@@ -1,0 +1,4 @@
+2015-04-29  gepr  <gepr@tempusdictum.com>
+
+	* cmp-by-col.r: List files by pattern containing "Loose" in experiment directories.
+

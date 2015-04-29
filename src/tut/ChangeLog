@@ -1,6 +1,28 @@
+2015-04-29  gepr  <gepr@tempusdictum.com>
+
+	* view/Observer.java: Create a specific output file for your target based on the parameter file name and the Model's class name.
+
+	* model/Tight.java (Tight): New name for the tightly coupled (previous) model.  Use new comps ArrayList rather than individual variables.
+
+	* model/Model.java (comps): ArrayList to contain componentss and subclass objects.  Main purpose is to avoid having to write a specific Observer for each Model.  Move model specifics to the new Tight subclass.
+
+	* model/[Comp,FunctionCall,Locale]: Make Comp a super class with FunctionCall for old model and Locale for new model.
+	(describe()): Remove.
+
+	* ctrl/Batch.java (MODEL_ORDER): Move from Model.
+	(load()): Rename old model to Tight.  Add new model Loose.  
+	(setupOutput()): Prepend output file names with the first part of the JSON parameter file name.
+
+	* Main.java (main()): Use first part of JSON parameter file as the experiment name and send to the Batch control.
+
 2015-04-27  gepr  <gepr@tempusdictum.com>
 
+	* view/Observer.java (init()): Change 1st column name of output from Cycle to Time.
+
+	* ctrl/Batch.java (constructor): Add an expName to help keep track of experiments.
+
 	* Main.java (MAJOR_VERSION): Bump.
+	(main()): Pass root of the parameter file into Batch to be used as the expName.
 
 2015-04-24  gepr  <gepr@tempusdictum.com>
 

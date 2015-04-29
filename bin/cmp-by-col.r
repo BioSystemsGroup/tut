@@ -3,7 +3,7 @@
 ##
 # Read multiple *.csv files and plot each column vs the 1st.
 #
-# Time-stamp: <2015-04-27 10:34:57 gepr>
+# Time-stamp: <2015-04-28 15:03:13 gepr>
 #
 #dev.off()
 
@@ -35,7 +35,8 @@ filenum <- 1
 for (exp in argv) {
   titles[[filenum]] <- exp
   fileName.base <- ifelse(exists("fileName.base"),paste(fileName.base,exp,sep="-"), exp)
-  fileName <- paste(exp,"/output.csv",sep="")
+  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-Loose.csv")
+  fileName <- paste(exp,"/",files,sep="")
   data[[filenum]] <- read.csv(fileName)
 
   filenum <- filenum+1

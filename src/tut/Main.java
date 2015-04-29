@@ -36,8 +36,11 @@ public class Main {
       System.out.println(p.describe());
       System.exit(-1);
     }
-
-    tut.ctrl.Batch b = new tut.ctrl.Batch(p);
+    
+    String expName = "default";
+    if (fileName != null && !fileName.equals("")) expName = fileName.substring(fileName.lastIndexOf('/'),fileName.indexOf(".json"));
+    tut.ctrl.Batch b = new tut.ctrl.Batch(expName, p);
+    
     if (useGUI) {
       gui = new tut.ctrl.GUI(b);
       gui.go();

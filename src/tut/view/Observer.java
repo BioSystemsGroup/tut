@@ -12,22 +12,54 @@ package tut.view;
 public class Observer implements sim.engine.Steppable {
   public static int VIEW_ORDER = 20;
   tut.model.Model subject = null;
+  String expName = null;
+  java.io.PrintWriter outFile = null;
   tut.ctrl.Parameters params = null;
-  public Observer(tut.ctrl.Parameters p) {
+  public Observer(String en, tut.ctrl.Parameters p) {
     params = p;
+    if (en != null && !en.equals("")) expName = en;
+    else throw new RuntimeException("Experiment name cannot be null or empty.");
   }
   
-  public void init(sim.engine.SimState state, tut.model.Model m) {
+  public void init(java.io.File dir, tut.model.Model m) {
     if (m != null) subject = m;
     else throw new RuntimeException("Subject to Observe cannot be null.");
+    
+    // setup the output file
+    if (dir != null && dir.exists()) {
+      try {
+        String fileName = dir.getCanonicalPath() + java.io.File.separator
+                + tut.ctrl.Batch.expName + "-"
+                + m.getClass().getSimpleName()+".csv";
+        outFile = new java.io.PrintWriter(new java.io.File(fileName));
+      } catch (java.io.IOException ioe) { throw new RuntimeException(ioe); }
+    }
+
+    // write the output file header
+    StringBuilder sb = new StringBuilder("Time, ");
+    java.util.ListIterator<tut.model.Comp> cIt = m.comps.listIterator();
+    while (true) {
+      tut.model.Comp c = cIt.next();
+      sb.append("Comp").append(c.id);
+      if (cIt.hasNext()) sb.append(", ");
+      else break;
+    }
+    outFile.println(sb.toString());
+    
     System.out.print("Running:       ");
-    tut.ctrl.Batch.log("Cycle, Comp0, Comp1");
   }
+  
   @Override
   public void step(sim.engine.SimState state) {
-    tut.ctrl.Batch.log(state.schedule.getSteps()*subject.cycle2time+", "
-            +subject.central.amount+", "
-            +subject.periph.amount);
+    StringBuilder sb = new StringBuilder(state.schedule.getSteps()*subject.cycle2time+",");
+    java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
+    while (true) {
+      sb.append(cIt.next().getAmount());
+      if (cIt.hasNext()) sb.append(", ");
+      else break;
+    }
+    outFile.println(sb.toString()); outFile.flush();
+    
     System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(params.cycleLimit-1)*100)+"% ");
     state.schedule.scheduleOnce(this, VIEW_ORDER);
   }
