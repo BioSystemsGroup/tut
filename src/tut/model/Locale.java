@@ -28,7 +28,7 @@ public class Locale extends Comp {
     
     for (Map.Entry<Locale,Double> me : ins.entrySet()) {
       Locale in = me.getKey();
-      double inc = in.getAmount()*me.getValue();
+      double inc = in.amount*me.getValue();
       in.amount -= inc;
       amount += inc;
     }

@@ -11,7 +11,7 @@ package tut.model;
 
 public abstract class Comp implements sim.engine.Steppable {
   public int id = -Integer.MAX_VALUE;
-  double amount = Double.NaN;
+  public double amount = Double.NaN;
   public Comp(int i, double start) {
     id = i;
     amount = start;

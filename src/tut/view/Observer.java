@@ -54,7 +54,7 @@ public class Observer implements sim.engine.Steppable {
     StringBuilder sb = new StringBuilder(state.schedule.getSteps()*subject.cycle2time+",");
     java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
     while (true) {
-      sb.append(cIt.next().getAmount());
+      sb.append(cIt.next().amount);
       if (cIt.hasNext()) sb.append(", ");
       else break;
     }
