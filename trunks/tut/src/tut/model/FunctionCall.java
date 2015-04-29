@@ -9,16 +9,18 @@
  */
 package tut.model;
 
-public abstract class Comp implements sim.engine.Steppable {
-  public int id = -Integer.MAX_VALUE;
-  double amount = Double.NaN;
-  public Comp(int i, double start) {
-    id = i;
-    amount = start;
-    tut.ctrl.Batch.log("Comp("+id+", "+start+")");
+import java.util.function.Function;
+
+public class FunctionCall extends Comp {
+  Function<Double,Double> func = null;
+  public FunctionCall(int i, Function<Double,Double> f, double start) {
+    super(i,start);
+    func = f;
   }
+  
   @Override
   public void step(sim.engine.SimState state) {
-    state.schedule.scheduleOnce(this,tut.model.Model.SUB_ORDER);
+    super.step(state);
+    amount = func.apply(state.schedule.getTime());
   }
 }

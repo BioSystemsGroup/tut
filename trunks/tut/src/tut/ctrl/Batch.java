@@ -10,35 +10,53 @@
 package tut.ctrl;
 
 public class Batch {
+  public static int MODEL_ORDER = 10;
   long cycleLimit = -Integer.MAX_VALUE;
   long seed = -Integer.MAX_VALUE;
   Parameters params = null;
   public sim.engine.SimState state = null;
-  public Batch(tut.ctrl.Parameters p) {
+  public static String expName="notset";
+  static java.io.File dir = null;
+  
+  public Batch(String en, tut.ctrl.Parameters p) {
     if (p != null) params = p;
     if (params.cycleLimit > 0) cycleLimit = params.cycleLimit;
     if (params.seed > 0) seed = params.seed;
+    if (en != null && !en.equals("")) expName = en;
+    else throw new RuntimeException("Experiment name cannot be null or empty.");
     state = new sim.engine.SimState(seed);
   }
   public final void load() {
     // setup output target
     setupOutput(params);
 
+    // launch the tightly coupled model
     cycleLimit = params.cycleLimit;
-    tut.model.Model m = new tut.model.Model(params);
-    m.init(state);
-    state.schedule.scheduleOnce(m, tut.model.Model.MODEL_ORDER);
+    tut.model.Tight m0 = new tut.model.Tight(params);
+    m0.init(state);
+    state.schedule.scheduleOnce(m0, MODEL_ORDER);
+
+    // attach the observer for the the tightly coupled model
+    tut.view.Observer m0Obs = new tut.view.Observer(expName, params);
+    m0Obs.init(dir, m0);
+    state.schedule.scheduleOnce(m0Obs, tut.view.Observer.VIEW_ORDER);
     
-    tut.view.Observer obs = new tut.view.Observer(params);
-    obs.init(state, m);
-    state.schedule.scheduleOnce(obs, tut.view.Observer.VIEW_ORDER);
+    // launch the loosely coupled model
+    tut.model.Loose m1 = new tut.model.Loose(params);
+    m1.init(state);
+    state.schedule.scheduleOnce(m1, MODEL_ORDER);
+    
+    // attach the observer for the loosely coupled model
+    tut.view.Observer m1Obs = new tut.view.Observer(expName, params);
+    m1Obs.init(dir,m1);
+    state.schedule.scheduleOnce(m1Obs, tut.view.Observer.VIEW_ORDER);
   }
   
   public void go() {
     while (state.schedule.getSteps() < cycleLimit) {
       state.schedule.step(state);
     }
-    //log("Batch.go() - Done!");
+    log("Batch.go() - Done!");
   }
   public void finish() {
     log.close();
@@ -47,7 +65,6 @@ public class Batch {
 
   private static java.io.PrintWriter log = null;
   public static void log(String entry) { log.println(entry); log.flush(); }
-  private static final String logName="output.csv";
   static void setupOutput(Parameters p) {
     String out_dir = null;
     final String DATE_FORMAT = "yyyy-MM-dd-HHmmss";
@@ -58,18 +75,9 @@ public class Batch {
     out_dir = date_s.toString();
 
     // create a directory using the current date and time
-    java.io.File dir = null;
     dir = new java.io.File(out_dir);
-    if (!dir.exists()) {
-      dir.mkdir();
-    }
-    String dirPath = null;
-    try {
-      dirPath = dir.getCanonicalPath() + java.io.File.separator;
-    } catch (java.io.IOException ioe) {
-      throw new RuntimeException("Couldn't " + dir + ".getCanonicalPath().");
-    }
-
+    if (!dir.exists()) dir.mkdir();
+    
     // write parameters
     try {
       java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(out_dir 
@@ -82,14 +90,13 @@ public class Batch {
       System.exit(-1);
     }
 
-    
     // initialize the output for run-time measurements
     try {
       log = new java.io.PrintWriter(new java.io.File(out_dir
-              + java.io.File.separator + logName));
+              + java.io.File.separator + expName + "-output.txt"));
     } catch (java.io.FileNotFoundException fnfe) {
       throw new RuntimeException("Couldn't open " + out_dir
-              + java.io.File.separator + logName, fnfe);
+              + java.io.File.separator + expName + ".txt", fnfe);
     }
 
   }
