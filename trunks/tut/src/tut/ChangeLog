@@ -1,5 +1,7 @@
 2015-04-29  gepr  <gepr@tempusdictum.com>
 
+	* Main.java (MAJOR_VERSION): Bump.
+
 	* view/Observer.java: Create a specific output file for your target based on the parameter file name and the Model's class name.
 
 	* model/Tight.java (Tight): New name for the tightly coupled (previous) model.  Use new comps ArrayList rather than individual variables.
