@@ -1,3 +1,7 @@
+2015-05-01  gepr  <gepr@tempusdictum.com>
+
+	* batch.json: Renamed from parameters.json.  Reformat according to new Parameters structure, to contain 2 tight and batch maps<String,Number>.
+
 2015-04-24  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json: Add dose and central compartment volume to default case (#1).

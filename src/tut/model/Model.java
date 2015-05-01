@@ -27,20 +27,8 @@ public class Model implements sim.engine.Steppable {
   }
   public void init(sim.engine.SimState state) {
     pRNG = state.random;
-    calcConstants();
   }
   
-  double A = Double.NaN, B = Double.NaN;
-  double α = Double.NaN, β = Double.NaN;
-  void calcConstants() {
-    double αβ_1 = params.k_12 + params.k_21 + params.k_10;
-    double αβ_2 = Math.sqrt(Math.pow(αβ_1, 2.0) - 4.0*params.k_21*params.k_10);
-    α = 0.5 * (αβ_1 + αβ_2);
-    β = 0.5 * (αβ_1 - αβ_2);
-    A = (params.k_a * params.dose)/params.vc * (params.k_21 - α)/((β-α)*(params.k_a-α));
-    B = (params.k_a * params.dose)/params.vc * (params.k_21 - β)/((α-β)*(params.k_a-β));
-  }
-
   @Override
   public void step(sim.engine.SimState state) {
     state.schedule.scheduleOnce(this, tut.ctrl.Batch.MODEL_ORDER);
