@@ -21,7 +21,7 @@ public class Loose extends Model {
     super.init(state);
 
     // create and schedule the Compartments
-    Locale source = new Locale(0,params.dose/params.vc);
+    Locale source = new Locale(0,params.tight.get("dose").doubleValue()/params.tight.get("vc").doubleValue());
     state.schedule.scheduleOnce(source, SUB_ORDER);
     Locale central = new Locale(1, 0.0);
     state.schedule.scheduleOnce(central, SUB_ORDER);
@@ -32,14 +32,14 @@ public class Loose extends Model {
     
     // wire them up
     HashMap<Locale,Double> tmp = new HashMap<>(2);
-    tmp.put(source,params.k_a/params.vc);
-    tmp.put(periph,params.k_21/params.vc);
+    tmp.put(source,params.tight.get("k_a").doubleValue()/params.tight.get("vc").doubleValue());
+    tmp.put(periph,params.tight.get("k_21").doubleValue()/params.tight.get("vc").doubleValue());
     central.setIns(tmp);
     tmp = new HashMap<>(1);
-    tmp.put(central,params.k_12/params.vc);
+    tmp.put(central,params.tight.get("k_12").doubleValue()/params.tight.get("vc").doubleValue());
     periph.setIns(tmp);
     tmp = new HashMap<>(1);
-    tmp.put(central,params.k_10/params.vc);
+    tmp.put(central,params.tight.get("k_10").doubleValue()/params.tight.get("vc").doubleValue());
     sink.setIns(tmp);
     
     // store them in the ArrayList

@@ -1,3 +1,21 @@
+2015-05-01  gepr  <gepr@tempusdictum.com>
+
+	* model/Tight.java (dose,vc,k_a,k_10,k_12,k_21): Convenience IVars given the verbosity of accessing the new Parameters Maps.
+	(calcConstants()): Moved from superclass since it won't be used by Loose in the next iteration.
+
+	* model/Model.java (calcConstants()): Move back down into Tight, since Loose won't be using them for the next iteration.
+
+	* model/Loose.java (params): Access params.[tight|batch] maps rather than IVars.
+
+	* ctrl/Parameters.java (batch,tight): Remove myriad IVars and replace with Map<String,Number>s.
+
+	* ctrl/GUI.java (start()): Simply use the Batch.cycleLimit IVar rather than the params content.
+
+	* ctrl/Batch.java (constructor): Get parameters from the new Paramters.[batch|tight] maps.
+
+	* Main.java (MINOR_VERSION): Use just "ver" svn:keyword instead of the whole "id".
+	(main()): Put "-epf" flag first so we can write the default Parameters object.
+
 2015-04-29  gepr  <gepr@tempusdictum.com>
 
 	* Main.java (MAJOR_VERSION): Bump.

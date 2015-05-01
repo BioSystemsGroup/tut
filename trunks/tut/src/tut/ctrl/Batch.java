@@ -20,8 +20,9 @@ public class Batch {
   
   public Batch(String en, tut.ctrl.Parameters p) {
     if (p != null) params = p;
-    if (params.cycleLimit > 0) cycleLimit = params.cycleLimit;
-    if (params.seed > 0) seed = params.seed;
+    cycleLimit = params.batch.get("cycleLimit").longValue();
+    if (cycleLimit <= 0) throw new RuntimeException("cycleLimit <= 0");
+    seed = params.batch.get("seed").longValue();
     if (en != null && !en.equals("")) expName = en;
     else throw new RuntimeException("Experiment name cannot be null or empty.");
     state = new sim.engine.SimState(seed);
@@ -31,7 +32,7 @@ public class Batch {
     setupOutput(params);
 
     // launch the tightly coupled model
-    cycleLimit = params.cycleLimit;
+    cycleLimit = params.batch.get("cycleLimit").longValue();
     tut.model.Tight m0 = new tut.model.Tight(params);
     m0.init(state);
     state.schedule.scheduleOnce(m0, MODEL_ORDER);

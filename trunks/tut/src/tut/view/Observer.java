@@ -60,7 +60,7 @@ public class Observer implements sim.engine.Steppable {
     }
     outFile.println(sb.toString()); outFile.flush();
     
-    System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(params.cycleLimit-1)*100)+"% ");
+    System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(params.batch.get("cycleLimit").longValue()-1)*100)+"% ");
     state.schedule.scheduleOnce(this, VIEW_ORDER);
   }
 }

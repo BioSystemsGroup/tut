@@ -11,15 +11,19 @@ package tut;
 
 public class Main {
   public static final String MAJOR_VERSION = "TUT-v0.3";
-  public static final String MINOR_VERSION = "$Id$";
+  public static final String MINOR_VERSION = "$ver$";
   public static void main(String[] args) {
     // run the GUI?
     boolean useGUI = keyExists("-gui",args);
     tut.ctrl.GUI gui = null;
 
+    if (keyExists("-epf",args)) {
+      System.out.println(new tut.ctrl.Parameters().describe());
+      System.exit(-1);
+    }
     // run with custom parameters?
     java.io.InputStream pf = null;
-    String fileName = "/parameters.json";
+    String fileName = "/batch.json";
     if (keyExists("-pf",args)) {
       fileName = argumentForKey("-pf", args, 0);
       try {
@@ -32,10 +36,6 @@ public class Main {
       if (pf == null) throw new RuntimeException("Could not find default parameters file in CLASSPATH.");
     }
     tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(pf);
-    if (keyExists("-epf",args)) {
-      System.out.println(p.describe());
-      System.exit(-1);
-    }
     
     String expName = "default";
     if (fileName != null && !fileName.equals("")) expName = fileName.substring(fileName.lastIndexOf('/'),fileName.indexOf(".json"));
