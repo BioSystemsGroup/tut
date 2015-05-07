@@ -16,7 +16,7 @@ public class GUI extends sim.display.GUIState {
   public GUI(Batch b) {
     super(b.state);
     batch = b;
-    console.setThreadPriority(1);
+    Thread.currentThread().setPriority(1);
     console.setVisible(true);
   }
   @Override

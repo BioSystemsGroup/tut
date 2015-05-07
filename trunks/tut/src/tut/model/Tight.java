@@ -22,7 +22,7 @@ public class Tight extends Model {
     super.init(state, tl, cpt);
     calcConstants();
     
-    Function func = concCent();
+    Function<Double,Double> func = concCent();
     FunctionCall comp = new FunctionCall(0, func, 0.0);
     state.schedule.scheduleOnce(comp, SUB_ORDER);
     comps.add(comp);
