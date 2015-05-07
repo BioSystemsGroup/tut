@@ -1,3 +1,36 @@
+2015-05-07  gepr  <gepr@tempusdictum.com>
+
+	* view/Observer.java (step()): When timeLimit is reached, don't reschedule myself.  Convert between MASON type and our subject's model time.
+
+	* model/Tight.java (init()): Accept timeLimit and cyclePerTime inputs.
+	(concCent(), concPeriph()): Convert input cycles into model time by dividing by model-specific cyclePerTime.
+
+	* model/Model.java (timeLimit,cyclePerTime): New IVars.  Time inside models is model time.  Time in Batch is MASON time.
+	(step()): Don't reschedule myself if my timeLimit is reached.  Set my sub-Comps to finished if timeLimit is reached.
+
+	* model/Loose.java (constructor): Accept timeLimit and cyclePerTime inputs.  Send volumes to Comps.  Use new parameters src2cent, peri2cent, cent2peri, cent2sink.
+
+	* model/Locale.java (constructor): Set the Comp's volume.
+	(getConc()): Return amount/volume.
+
+	* model/FunctionCall.java (getConc()): Returns the simple amount.
+
+	* model/Comp.java (finished): Set by Model when timeLimit is reached.  Prevents the Comp from rescheduling itself.
+	(getConc()): Abstract function wrapping each Comp's division by its volume.
+
+	* ctrl/Parameters.java (loose): New Map to contain separate parameters for the Loose model.
+	(timeLimit, cyclePerTime): Set for each model.
+
+	* ctrl/GUI.java (start()): Set to pause at batch.getMaxCycle().
+
+	* ctrl/Batch.java (cycleLimit): Change from using the same time mapping in both models to using different time mappings for each model.  Batch works in MASON cycles/time, whereas the models work in their own time.  Cycles are mostly double-valued.
+	(model[TL]): Keep track of models with more meaningful variable names.
+	(load()): Send per-model timeLimit and cyclePerTime to the models in their init() method.
+	(go()): Stop when all models are finished.  Move System.out from Observer to here.
+	(getMaxCycle()): Convenience to get the maximum cycle based on all models' timeLimits.
+
+	* Main.java (parameters.json): Rename back from batch.json.
+
 2015-05-01  gepr  <gepr@tempusdictum.com>
 
 	* model/Tight.java (dose,vc,k_a,k_10,k_12,k_21): Convenience IVars given the verbosity of accessing the new Parameters Maps.

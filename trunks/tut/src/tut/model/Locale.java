@@ -14,12 +14,16 @@ import java.util.Map;
 public class Locale extends Comp {
   Map<Locale,Double> ins = null;
   public void setIns(Map<Locale,Double> inl) { ins = inl; }
-  double ratio = 1.0; // factor by which to compare to a reference compartment
+  double volume = Double.NaN;
   
-  public Locale(int i, double start) {
+  public Locale(int i, double start, double v) {
     super(i,start);
+    volume = v;
   }
 
+  @Override
+  public double getConc() { return amount/volume; }
+  
   @Override
   public void step(sim.engine.SimState state) {
     super.step(state);

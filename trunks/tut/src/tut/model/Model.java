@@ -14,8 +14,10 @@ import java.util.ArrayList;
 public class Model implements sim.engine.Steppable {
   public static int SUB_ORDER = tut.ctrl.Batch.MODEL_ORDER+1;
   public ec.util.MersenneTwisterFast pRNG = null;
+  public boolean finished = false;
   tut.ctrl.Parameters params = null;
-  public double cycle2time = 0.25;
+  public double timeLimit = Double.NaN;
+  public double cyclePerTime = Double.NaN;
   
   /**
    * comps allows us to decouple the Observer from the specific Model
@@ -25,12 +27,21 @@ public class Model implements sim.engine.Steppable {
   public Model(tut.ctrl.Parameters p) {
     if (p != null) params = p;
   }
-  public void init(sim.engine.SimState state) {
+  public void init(sim.engine.SimState state, double tl, double cpt) {
     pRNG = state.random;
+    if (tl > 0.0) timeLimit = tl;
+    else throw new RuntimeException(getClass().getName()+".timeLimit <= 0.0.");
+    if (cpt > 0.0) cyclePerTime = cpt;
+    else throw new RuntimeException(getClass().getName()+".cyclePerTime <= 0.0.");
   }
   
   @Override
   public void step(sim.engine.SimState state) {
-    state.schedule.scheduleOnce(this, tut.ctrl.Batch.MODEL_ORDER);
+    if (state.schedule.getTime() < timeLimit*cyclePerTime )
+      state.schedule.scheduleOnce(this, tut.ctrl.Batch.MODEL_ORDER);
+    else {
+      finished = true;
+      for (Comp c : comps) c.finished = true;
+    }
   }
 }

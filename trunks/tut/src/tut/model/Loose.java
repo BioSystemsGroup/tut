@@ -17,29 +17,29 @@ public class Loose extends Model {
   }
   
   @Override
-  public void init(sim.engine.SimState state) {
-    super.init(state);
-
+  public void init(sim.engine.SimState state, double tl, double cpt) {
+    super.init(state, tl, cpt);
+    
     // create and schedule the Compartments
-    Locale source = new Locale(0,params.tight.get("dose").doubleValue()/params.tight.get("vc").doubleValue());
+    Locale source = new Locale(0,params.loose.get("dose").doubleValue(), 1.0);
     state.schedule.scheduleOnce(source, SUB_ORDER);
-    Locale central = new Locale(1, 0.0);
+    Locale central = new Locale(1, 0.0, params.loose.get("vc").doubleValue());
     state.schedule.scheduleOnce(central, SUB_ORDER);
-    Locale periph = new Locale(2, 0.0);
+    Locale periph = new Locale(2, 0.0, params.loose.get("vp").doubleValue());
     state.schedule.scheduleOnce(periph, SUB_ORDER);
-    Locale sink = new Locale(3, 0.0);
+    Locale sink = new Locale(3, 0.0, 1.0);
     state.schedule.scheduleOnce(sink, SUB_ORDER);
     
     // wire them up
     HashMap<Locale,Double> tmp = new HashMap<>(2);
-    tmp.put(source,params.tight.get("k_a").doubleValue()/params.tight.get("vc").doubleValue());
-    tmp.put(periph,params.tight.get("k_21").doubleValue()/params.tight.get("vc").doubleValue());
+    tmp.put(source,params.loose.get("src2cent").doubleValue());
+    tmp.put(periph,params.loose.get("peri2cent").doubleValue());
     central.setIns(tmp);
     tmp = new HashMap<>(1);
-    tmp.put(central,params.tight.get("k_12").doubleValue()/params.tight.get("vc").doubleValue());
+    tmp.put(central,params.loose.get("cent2peri").doubleValue());
     periph.setIns(tmp);
     tmp = new HashMap<>(1);
-    tmp.put(central,params.tight.get("k_10").doubleValue()/params.tight.get("vc").doubleValue());
+    tmp.put(central,params.loose.get("cent2sink").doubleValue());
     sink.setIns(tmp);
     
     // store them in the ArrayList

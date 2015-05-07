@@ -11,17 +11,16 @@ package tut.ctrl;
 
 public class Batch {
   public static int MODEL_ORDER = 10;
-  long cycleLimit = -Integer.MAX_VALUE;
   long seed = -Integer.MAX_VALUE;
   Parameters params = null;
   public sim.engine.SimState state = null;
   public static String expName="notset";
   static java.io.File dir = null;
+  tut.model.Tight modelT = null;
+  tut.model.Loose modelL = null;
   
   public Batch(String en, tut.ctrl.Parameters p) {
     if (p != null) params = p;
-    cycleLimit = params.batch.get("cycleLimit").longValue();
-    if (cycleLimit <= 0) throw new RuntimeException("cycleLimit <= 0");
     seed = params.batch.get("seed").longValue();
     if (en != null && !en.equals("")) expName = en;
     else throw new RuntimeException("Experiment name cannot be null or empty.");
@@ -32,33 +31,37 @@ public class Batch {
     setupOutput(params);
 
     // launch the tightly coupled model
-    cycleLimit = params.batch.get("cycleLimit").longValue();
-    tut.model.Tight m0 = new tut.model.Tight(params);
-    m0.init(state);
-    state.schedule.scheduleOnce(m0, MODEL_ORDER);
+    modelT = new tut.model.Tight(params);
+    modelT.init(state, 
+            params.tight.get("timeLimit").doubleValue(),
+            params.tight.get("cyclePerTime").doubleValue());
+    state.schedule.scheduleOnce(modelT, MODEL_ORDER);
 
     // attach the observer for the the tightly coupled model
-    tut.view.Observer m0Obs = new tut.view.Observer(expName, params);
-    m0Obs.init(dir, m0);
-    state.schedule.scheduleOnce(m0Obs, tut.view.Observer.VIEW_ORDER);
+    tut.view.Observer mTObs = new tut.view.Observer(expName, params);
+    mTObs.init(dir, modelT);
+    state.schedule.scheduleOnce(mTObs, tut.view.Observer.VIEW_ORDER);
     
     // launch the loosely coupled model
-    tut.model.Loose m1 = new tut.model.Loose(params);
-    m1.init(state);
-    state.schedule.scheduleOnce(m1, MODEL_ORDER);
+    modelL = new tut.model.Loose(params);
+    modelL.init(state, 
+            params.loose.get("timeLimit").doubleValue(),
+            params.loose.get("cyclePerTime").doubleValue());
+    state.schedule.scheduleOnce(modelL, MODEL_ORDER);
     
     // attach the observer for the loosely coupled model
-    tut.view.Observer m1Obs = new tut.view.Observer(expName, params);
-    m1Obs.init(dir,m1);
-    state.schedule.scheduleOnce(m1Obs, tut.view.Observer.VIEW_ORDER);
+    tut.view.Observer mLObs = new tut.view.Observer(expName, params);
+    mLObs.init(dir,modelL);
+    state.schedule.scheduleOnce(mLObs, tut.view.Observer.VIEW_ORDER);
   }
   
   public void go() {
-    while (state.schedule.getSteps() < cycleLimit) {
+    while (!modelT.finished || !modelL.finished)
       state.schedule.step(state);
-    }
-    log("Batch.go() - Done!");
+    System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(getMaxCycle()-1)*100.0)+"% ");
+    log("Batch.go() - Submodels are finished!");
   }
+  
   public void finish() {
     log.close();
     System.out.println("Finished.  Wait for buffered output.");
@@ -101,5 +104,7 @@ public class Batch {
     }
 
   }
-
+  public double getMaxCycle() {
+    return Math.max(modelT.timeLimit*modelT.cyclePerTime, modelL.timeLimit*modelL.cyclePerTime);
+  }
 }

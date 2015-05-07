@@ -1,0 +1,27 @@
+{
+  "version": "TUT-v0.4 Subversion$ver$",
+  "batch": {
+    "seed": 1234567890
+  },
+  "tight": {
+    "timeLimit": 25.0,
+    "cyclePerTime": 4.0,
+    "dose": 100.0,
+    "vc": 10.0,
+    "k_a": 3.0,
+    "k_12": 1.0,
+    "k_21": 0.3,
+    "k_10": 0.1
+   },
+  "loose": {
+    "timeLimit": 25.0,
+    "cyclePerTime": 10.0,
+    "dose": 10.0,
+    "vc": 1.0,
+    "vp": 3.5,
+    "src2cent": 0.3,
+    "cent2peri": 0.1,
+    "peri2cent": 0.03,
+    "cent2sink": 0.01
+  }
+}
