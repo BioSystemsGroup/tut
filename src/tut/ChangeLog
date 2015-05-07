@@ -1,5 +1,9 @@
 2015-05-07  gepr  <gepr@tempusdictum.com>
 
+	* model/Tight.java (init()): Set Function type (<Double,Double>).
+
+	* ctrl/GUI.java (constructor): Replace console.setThreadPriority(1), which is deprecated, with Thread.currentThread().setPriority(1).
+
 	* view/Observer.java (step()): When timeLimit is reached, don't reschedule myself.  Convert between MASON type and our subject's model time.
 
 	* model/Tight.java (init()): Accept timeLimit and cyclePerTime inputs.
