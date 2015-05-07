@@ -51,16 +51,17 @@ public class Observer implements sim.engine.Steppable {
   
   @Override
   public void step(sim.engine.SimState state) {
-    StringBuilder sb = new StringBuilder(state.schedule.getSteps()*subject.cycle2time+",");
-    java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
-    while (true) {
-      sb.append(cIt.next().amount);
-      if (cIt.hasNext()) sb.append(", ");
-      else break;
-    }
-    outFile.println(sb.toString()); outFile.flush();
+    if (!subject.finished) {
+      StringBuilder sb = new StringBuilder(state.schedule.getTime()/subject.cyclePerTime+",");
+      java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
+      while (true) {
+        sb.append(cIt.next().getConc());
+        if (cIt.hasNext()) sb.append(", ");
+        else break;
+      }
+      outFile.println(sb.toString()); outFile.flush();
     
-    System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(params.batch.get("cycleLimit").longValue()-1)*100)+"% ");
-    state.schedule.scheduleOnce(this, VIEW_ORDER);
+      state.schedule.scheduleOnce(this, VIEW_ORDER);
+    }
   }
 }

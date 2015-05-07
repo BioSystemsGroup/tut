@@ -1,3 +1,10 @@
+2015-05-07  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json,batch.json: Rename batch.json back to parameters.json.
+	(cycleLimit): Implement a model time inside the models and a MASON time (real-valued cycles) in batch.
+	(timeLimit, cyclePerTime): Add to tight and loose models so that each model can have it's own temporal grounding in relation to the MASON cycles.
+	(loose): New parameters similar to those for the tightly coupled model, but with more informative names: src2cent, cent2peri, peri2cent, cent2sink.  New parameter vp (volume of peripheral compartment).
+
 2015-05-01  gepr  <gepr@tempusdictum.com>
 
 	* batch.json: Renamed from parameters.json.  Reformat according to new Parameters structure, to contain 2 tight and batch maps<String,Number>.

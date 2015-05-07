@@ -23,7 +23,7 @@ public class Main {
     }
     // run with custom parameters?
     java.io.InputStream pf = null;
-    String fileName = "/batch.json";
+    String fileName = "/parameters.json";
     if (keyExists("-pf",args)) {
       fileName = argumentForKey("-pf", args, 0);
       try {

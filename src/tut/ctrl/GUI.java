@@ -22,7 +22,7 @@ public class GUI extends sim.display.GUIState {
   @Override
   public void start() {
     super.start();
-    console.setWhenShouldPause(batch.cycleLimit);
+    console.setWhenShouldPause((long)batch.getMaxCycle());
     batch.load();
   }
   public void load() {

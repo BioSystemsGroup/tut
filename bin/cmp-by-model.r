@@ -5,7 +5,7 @@
 # Read multiple *.csv files and plot all columns vs the 1st.  Tight on
 # the left, Loose on the right.
 #
-# Time-stamp: <2015-04-29 16:55:55 gepr>
+# Time-stamp: <2015-05-04 14:35:27 gepr>
 #
 #dev.off()
 
@@ -13,7 +13,7 @@ argv <- commandArgs(TRUE)
 
 if (length(argv) < 2) {
     print("Usage: cmp-by-model.r <exp directories>")
-    print("  e.g. cmp-by-col.r case-??x")
+    print("  e.g. cmp-by-model.r case-??x")
     print("  directories should contain files like: case-01-Loose.csv")
     print("Note that columns must match across all .csv files.")
     quit()
