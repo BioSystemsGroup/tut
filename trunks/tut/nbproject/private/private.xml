@@ -5,6 +5,9 @@
         <group>
             <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/Main.java</file>
             <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/ctrl/GUI.java</file>
+            <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/ctrl/Parameters.java</file>
+            <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/ctrl/Batch.java</file>
+            <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/cfg/parameters.json</file>
         </group>
     </open-files>
 </project-private>
