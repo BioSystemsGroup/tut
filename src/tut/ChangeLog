@@ -1,3 +1,7 @@
+2015-05-08  gepr  <gepr@tempusdictum.com>
+
+	* ctrl/Batch.java (constructor): Use System.currentTimeMillis() if Parameters contains a null seed.
+
 2015-05-07  gepr  <gepr@tempusdictum.com>
 
 	* model/Tight.java (init()): Set Function type (<Double,Double>).

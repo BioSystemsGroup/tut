@@ -21,7 +21,13 @@ public class Batch {
   
   public Batch(String en, tut.ctrl.Parameters p) {
     if (p != null) params = p;
-    seed = params.batch.get("seed").longValue();
+    Number seed_n = params.batch.get("seed");
+    if (seed_n != null) {
+      seed = seed_n.longValue();
+    } else {
+      seed = System.currentTimeMillis();
+      params.batch.put("seed",seed);
+    }
     if (en != null && !en.equals("")) expName = en;
     else throw new RuntimeException("Experiment name cannot be null or empty.");
     state = new sim.engine.SimState(seed);
