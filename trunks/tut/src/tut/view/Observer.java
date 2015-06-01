@@ -15,6 +15,8 @@ public class Observer implements sim.engine.Steppable {
   String expName = null;
   java.io.PrintWriter outFile = null;
   tut.ctrl.Parameters params = null;
+  private final boolean fraction = true;
+  
   public Observer(String en, tut.ctrl.Parameters p) {
     params = p;
     if (en != null && !en.equals("")) expName = en;
@@ -40,7 +42,7 @@ public class Observer implements sim.engine.Steppable {
     java.util.ListIterator<tut.model.Comp> cIt = m.comps.listIterator();
     while (true) {
       tut.model.Comp c = cIt.next();
-      sb.append("Comp").append(c.id);
+      sb.append("Comp").append(c.id).append((fraction ? ".fract" : ".conc"));
       if (cIt.hasNext()) sb.append(", ");
       else break;
     }
@@ -55,7 +57,9 @@ public class Observer implements sim.engine.Steppable {
       StringBuilder sb = new StringBuilder(state.schedule.getTime()/subject.cyclePerTime+",");
       java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
       while (true) {
-        sb.append(cIt.next().getConc());
+        tut.model.Comp c = cIt.next();
+        double result = (fraction ? subject.getFraction(c) : subject.getConc(c));
+        sb.append(result);
         if (cIt.hasNext()) sb.append(", ");
         else break;
       }

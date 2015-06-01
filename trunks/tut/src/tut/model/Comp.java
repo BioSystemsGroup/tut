@@ -20,8 +20,6 @@ public abstract class Comp implements sim.engine.Steppable {
     tut.ctrl.Batch.log("Comp("+id+", "+start+")");
   }
   
-  public abstract double getConc();
-  
   @Override
   public void step(sim.engine.SimState state) {
     if (!finished)

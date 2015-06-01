@@ -1,3 +1,19 @@
+2015-06-01  gepr  <gepr@tempusdictum.com>
+
+	* view/Observer.java (fraction,step()): Measure dose fraction rather than concentration.
+	(Steppable): Append ".conc" or ".fract" to column name.
+
+	* model/Tight.java (getConc()): Moved from FunctionCall.
+	(getFraction()): New, measures dose fraction rather than concentration.
+
+	* model/Model.java: Made abstract for getConc() (moved from Comp) and getFraction() (which is new).
+
+	* model/Loose.java (Model,init()): Convenience IVars for dose and vc, since getFraction() needs them.
+	(getConc()): Moved from Comp and Locale.
+	(getFraction()): New, for measuring dose fraction rather than concentration.
+
+	* model/Comp, model/FunctionCall, model/Locale (getConc()): Moved to Model (abstract), Tight and Loose.
+
 2015-05-08  gepr  <gepr@tempusdictum.com>
 
 	* ctrl/Batch.java (constructor): Use System.currentTimeMillis() if Parameters contains a null seed.

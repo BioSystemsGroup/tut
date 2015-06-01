@@ -22,9 +22,6 @@ public class Locale extends Comp {
   }
 
   @Override
-  public double getConc() { return amount/volume; }
-  
-  @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
     

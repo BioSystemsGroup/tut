@@ -19,9 +19,6 @@ public class FunctionCall extends Comp {
   }
   
   @Override
-  public double getConc() { return amount; }
-  
-  @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
     amount = func.apply(state.schedule.getTime());
