@@ -11,7 +11,7 @@ package tut.model;
 
 import java.util.ArrayList;
 
-public class Model implements sim.engine.Steppable {
+public abstract class Model implements sim.engine.Steppable {
   public static int SUB_ORDER = tut.ctrl.Batch.MODEL_ORDER+1;
   public ec.util.MersenneTwisterFast pRNG = null;
   public boolean finished = false;
@@ -34,7 +34,10 @@ public class Model implements sim.engine.Steppable {
     if (cpt > 0.0) cyclePerTime = cpt;
     else throw new RuntimeException(getClass().getName()+".cyclePerTime <= 0.0.");
   }
-  
+
+  public abstract double getConc(Comp c);
+  public abstract double getFraction(Comp c);
+
   @Override
   public void step(sim.engine.SimState state) {
     if (state.schedule.getTime() < timeLimit*cyclePerTime )

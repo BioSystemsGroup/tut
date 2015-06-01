@@ -12,6 +12,8 @@ package tut.model;
 import java.util.HashMap;
 
 public class Loose extends Model {
+  private double dose = Double.NaN, vc = Double.NaN;
+  
   public Loose(tut.ctrl.Parameters p) {
     super(p);
   }
@@ -21,9 +23,11 @@ public class Loose extends Model {
     super.init(state, tl, cpt);
     
     // create and schedule the Compartments
-    Locale source = new Locale(0,params.loose.get("dose").doubleValue(), 1.0);
+    dose = params.loose.get("dose").doubleValue();
+    Locale source = new Locale(0, dose, 1.0);
     state.schedule.scheduleOnce(source, SUB_ORDER);
-    Locale central = new Locale(1, 0.0, params.loose.get("vc").doubleValue());
+    vc = params.loose.get("vc").doubleValue();
+    Locale central = new Locale(1, 0.0, vc);
     state.schedule.scheduleOnce(central, SUB_ORDER);
     Locale periph = new Locale(2, 0.0, params.loose.get("vp").doubleValue());
     state.schedule.scheduleOnce(periph, SUB_ORDER);
@@ -47,6 +51,16 @@ public class Loose extends Model {
     comps.add(central);
     comps.add(periph);
     comps.add(sink);
+  }
+  
+  @Override
+  public double getConc(Comp c) {
+    Locale l = (Locale) c;
+    return l.amount/l.volume;
+  }
+  @Override
+  public double getFraction(Comp c) {
+    return getConc(c) * vc/dose;
   }
 
   @Override

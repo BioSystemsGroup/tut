@@ -5,7 +5,7 @@
 # Read multiple *.csv files and plot all columns vs the 1st.  Tight on
 # the left, Loose on the right.
 #
-# Time-stamp: <2015-05-04 14:35:27 gepr>
+# Time-stamp: <2015-06-01 14:26:32 gepr>
 #
 #dev.off()
 
@@ -63,15 +63,27 @@ for (i in 1:length(argv)) {
   min.y <- min(min(tight[[i]][,2:3]),min(loose[[i]][,2:3]))
   if (min.y <= 0) min.y <- 1e-5
 
+  ### get the ylabel for the first plot
+  if (length(grep("fract", colnames(tight[[i]]))) < 1)
+    ylab <- "C (mg/L)"
+  else
+    ylab <- "dose fraction"
+
   plot(tight[[i]][,1],tight[[i]][,2],type="l",ylim=c(min.y,max.y),
        main=paste(argv[i],"Tight"),
-       xlab="Time (hr)", ylab="C (mg/L)")
+       xlab="Time (hr)", ylab=ylab)
   lines(tight[[i]][,1],tight[[i]][,3],lty=2)
   legend("topright", legend=c("Central","Peripheral"),lty=1:2,cex=2)
 
+  ### get the ylabel for the next plot
+  if (length(grep("fract", colnames(loose[[i]]))) < 1)
+    ylab <- "C (mg/L)"
+  else
+    ylab <- "dose fraction"
+
   plot(loose[[i]][,1],loose[[i]][,3],type="l",ylim=c(min.y,max.y),
        main=paste(argv[i],"Loose"),
-       xlab="Time (hr)", ylab="C (mg/L)")
+       xlab="Time (hr)", ylab=ylab)
   lines(loose[[i]][,1],loose[[i]][,4],lty=2)
   legend("topright", legend=c("Central","Peripheral"),lty=1:2,cex=2)
 

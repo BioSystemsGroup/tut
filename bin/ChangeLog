@@ -1,3 +1,7 @@
+2015-06-01  gepr  <gepr@tempusdictum.com>
+
+	* cmp-by-model.r: Add test for "conc" or "fract" in column names and use different y label depending.
+
 2015-05-11  gepr  <gepr@tempusdictum.com>
 
 	* agg.r: Script to aggregate (mean) data from several trials.

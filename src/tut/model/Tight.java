@@ -34,6 +34,11 @@ public class Tight extends Model {
   }
 
   @Override
+  public double getConc(Comp c) { return c.amount; }
+  @Override
+  public double getFraction(Comp c) { return c.amount * vc/dose; }
+  
+  @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
   }
