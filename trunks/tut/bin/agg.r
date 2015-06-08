@@ -4,7 +4,7 @@
 ###
 ## Read multiple *.csv files, average the 1st 1/3, 2/3, then all of them.
 ##
-## Time-stamp: <2015-05-11 14:57:43 gepr>
+## Time-stamp: <2015-06-08 13:09:21 gepr>
 ##
 ##dev.off()
 
@@ -17,6 +17,9 @@ if (length(argv) < 2) {
     print("Note that columns must match across all .csv files.")
     quit()
 }
+
+SHOWRAW <- FALSE
+PNG <- FALSE
 
 ###
 ## mean the columns of the given list of data.frames
@@ -34,11 +37,22 @@ colAvg <- function(dfl) {
   return(means)
 }
 
+roundDown <- function(x) {
+  return (10^floor(log10(x)))
+}
+
+###
+## get the title from the 1st argv
+###
+first <- regexpr("case-??",argv[1])[1]
+exp.title <- substr(argv[1],first,first+6)
 
 ###
 ## read data & test for matching columns
 ###
 dat <- vector("list")
+max.y <- -1e100
+min.y <- 1e100
 fnum <- 1
 for (file in argv) {
   dat[[fnum]] <- read.csv(file)
@@ -48,30 +62,62 @@ for (file in argv) {
     quit()
   } else
     cols <- columns
+  max.y <- max(max.y, max(dat[[fnum]][,3:4]))
+  col3 <- dat[[fnum]][,3]
+  min.y <- min(min.y, min(col3[col3 != 0]))
+  col4 <- dat[[fnum]][4]
+  min.y <- min(min.y, min(col4[col4 != 0]))
+
   fnum <- fnum+1
 }
+min.y <- roundDown(min.y)
+
+###
+## set y axis units depending on column names
+###
+if (length(grep("fract", cols)) < 1) {
+  ylab <- "C (mg/L)"
+} else
+  ylab <- "Dose Fraction"
 
 ###
 ## test for and create graphics subdirectory
 ###
 if (!file.exists("graphics")) dir.create("graphics")
 
-fileName <- paste("graphics/",length(dat),"-trial-mean.png",sep="")
-png(fileName, width=1600, height=1236)
-
-par(mar=c(5,6,4,2), cex.main=3, cex.axis=2, cex.lab=3)
-par(mfrow=c(2,1)) # 2 rows, 1 column
+fileName <- paste("graphics/",exp.title,"-μ-", length(dat), "-trials", sep="")
+plot.title <- bquote(.(paste(exp.title,"μ"))[.(length(dat))])
+if (PNG) {
+  png(paste(fileName, ".png", sep=""), width=1600, height=1236)
+} else svg(paste(fileName, ".svg", sep=""), width=8, height=8)
+par(mar=c(5,6,4,2), cex.main=2, cex.axis=1, cex.lab=2)
 
 cols[3] <- "Central"
 cols[4] <- "Peripheral"
 
-for (comp in seq(3,4)) {
-  means <- colAvg(dat[1:length(dat)])
-  plot(means[,1],means[,comp], type="l", log="y", xlab="Time (hr)", ylab="C (mg/L)",
-       main=paste(cols[comp],"Compartment"))
-  legend("topright", legend=paste("mean of",length(dat),"trials"), lty=1, cex=2)
+means <- colAvg(dat[1:length(dat)])
 
-  for (s in 1:3) {
-    points(dat[[s]][,1], dat[[s]][,comp], pch=16, col="grey")
+if (SHOWRAW) {
+  ## plot 1st raw data set
+  plot(dat[[1]][,1], dat[[1]][,3], type="p", log="y", ylim=c(min.y,max.y),
+       xlab="Time (hr)", ylab=ylab, main=plot.title)
+  ## plot remainder of data sets for compartment 2
+  for (s in 2:length(dat)) {
+    points(dat[[s]][,1], dat[[s]][,3], pch=16, col="grey")
   }
+  ## plot all data sets for compartment 3
+  for (s in 1:length(dat)) {
+    points(dat[[s]][,1], dat[[s]][,4], pch=17, col="grey")
+  }
+} else {
+  ## plot the means for compartment 2
+  plot(means[,1],means[,3], type="l", log="y", ylim=c(min.y,max.y),
+       xlab="Time (hr)", ylab=ylab, main=plot.title)
 }
+###
+## plot column 4, compartment 3 on the same plot
+###
+lines(means[,1],means[,4], lty=2)
+
+legend("topright", legend=c(cols[3], cols[4]), lty=1:2, cex=1)
+
