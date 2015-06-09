@@ -59,7 +59,7 @@ public class Batch {
     // attach the observer for the loosely coupled model
     tut.view.ObsCompound mLObs = new tut.view.ObsCompound(expName, params);
     mLObs.init(dir,modelL);
-    state.schedule.scheduleOnce(mLObs, tut.view.ObsCompound.VIEW_ORDER);
+    state.schedule.scheduleOnce(mLObs, tut.view.Obs.VIEW_ORDER);
     
     // launch the dynamic loosely coupled model
     modelLD = new tut.model.LooseDyn(params);
@@ -68,10 +68,14 @@ public class Batch {
             params.loose.get("cyclePerTime").doubleValue());
     state.schedule.scheduleOnce(modelLD, MODEL_ORDER);
     
-    // attach the observer for the dynamic loosely coupled model
-    tut.view.ObsCompound mLDObs = new tut.view.ObsCompound(expName, params);
-    mLDObs.init(dir,modelLD);
-    state.schedule.scheduleOnce(mLDObs, tut.view.ObsCompound.VIEW_ORDER);
+    // attach the compound observer for the dynamic loosely coupled model
+    tut.view.ObsCompound mLDObsC = new tut.view.ObsCompound(expName, params);
+    mLDObsC.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObsC, tut.view.Obs.VIEW_ORDER);
+    // attach the acc observer
+    tut.view.ObsAcc mLDObsA = new tut.view.ObsAcc(expName, params);
+    mLDObsA.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObsA, tut.view.Obs.VIEW_ORDER);
   }
   
   public void go() {

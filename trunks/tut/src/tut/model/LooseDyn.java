@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class LooseDyn extends Model {
   private double dose = Double.NaN, vc = Double.NaN;
-  private int acc = -Integer.MAX_VALUE; // accumulator for "pain"
+  public double acc = Double.NaN; // accumulator for "pain"
   public double MAX_ACC = 10.0;
   private final double RELIEF_BOTTOM = 0.30, RELIEF_TOP=0.70;
   
@@ -24,14 +24,16 @@ public class LooseDyn extends Model {
   @Override
   public void init(sim.engine.SimState state, double tl, double cpt) {
     super.init(state, tl, cpt);
-    
+
+    acc = params.loose.get("initialAcc").intValue();
+    double morb_delay_hr = params.loose.get("morbidityDelay").doubleValue();
     // create and schedule the Compartments
     dose = params.loose.get("dose").doubleValue();
     LocaleDyn source = new LocaleDyn(this, 0, dose, 1.0);
     state.schedule.scheduleOnce(source, SUB_ORDER);
     vc = params.loose.get("vc").doubleValue();
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
-    central.setMorbidity(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, cpt*24.0);
+    central.setMorbidity(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, cpt*morb_delay_hr);
     state.schedule.scheduleOnce(central, SUB_ORDER);
     LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
     state.schedule.scheduleOnce(periph, SUB_ORDER);
@@ -59,9 +61,11 @@ public class LooseDyn extends Model {
   
   public void relieveMorbidity(double intensity) {
     acc -= intensity;
+    if (acc < 0.0) acc = 0.0;
   }
   public void registerMorbidity(double intensity) {
     acc += intensity;
+    if (acc > 10.0) acc = 10.0;
   }
   
   @Override

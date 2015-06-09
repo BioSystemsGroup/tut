@@ -31,7 +31,9 @@ public abstract class Obs implements sim.engine.Steppable {
       try {
         String fileName = dir.getCanonicalPath() + java.io.File.separator
                 + tut.ctrl.Batch.expName + "-"
-                + m.getClass().getSimpleName()+".csv";
+                + m.getClass().getSimpleName() + "-"
+                + this.getClass().getSimpleName()
+                + ".csv";
         outFile = new java.io.PrintWriter(new java.io.File(fileName));
       } catch (java.io.IOException ioe) { throw new RuntimeException(ioe); }
     }

@@ -1,5 +1,15 @@
 2015-06-09  gepr  <gepr@tempusdictum.com>
 
+	* view/Obs.java (init()): With the new observer, we need a new file, distinguished by adding the name of the Obs subclass.
+
+	* model/LooseDyn.java (acc): Change acc from Integer to Double to allow half-steps.
+
+	* model/LocaleDyn.java (handleMorbidity()): Reduce reliefMorbidity intensity to a half-step.  Conver registerMorbidity to use time (in hours) rather than cycles.
+
+	* ctrl/Parameters.java ("initialAcc", "morbidityDelay"): New parameters, one for the initial value of acc, one for the time (in hours) from morbidity handling in the LocaleDyn to registration of it with the LooseDyn.
+
+	* ctrl/Batch.java (load()): Instantiate an ObsAcc.
+
 	* view/Obs.java: Renamed from Observer, made abstract.
 
 	* view/ObsCompound.java: Implement compound specific observation.

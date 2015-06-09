@@ -43,7 +43,7 @@ public class LocaleDyn extends Locale {
       cyclesWORelief = 0;
       // schedule relief for next cycle
       state.schedule.scheduleOnce(
-              (sim.engine.SimState s) -> { body.relieveMorbidity(1.0); }, 
+              (sim.engine.SimState s) -> { body.relieveMorbidity(0.5); }, 
               tut.model.Model.SUB_ORDER);
     } else {
       cyclesWORelief++;
@@ -51,7 +51,7 @@ public class LocaleDyn extends Locale {
       double now = state.schedule.getTime();
       state.schedule.scheduleOnce(now+morb_delay, tut.model.Model.SUB_ORDER, 
               (sim.engine.SimState s) -> { 
-                double intensity = isl.util.SigmoidGradient.eval(0.0, body.MAX_ACC, 0.0, morb_delay, (double)cyclesWORelief);
+                double intensity = isl.util.SigmoidGradient.eval(0.0, body.MAX_ACC, 0.0, morb_delay, (double)cyclesWORelief/body.cyclePerTime);
                 body.registerMorbidity(intensity);
               });
     }

@@ -1,3 +1,7 @@
+2015-06-09  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json("initialAcc", "morbidityDelay"): Two new parameters, one specifying the initial value of the accumulator and one specifying the amount of time to delay the registerMorbidity event (in hours).
+
 2015-05-08  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json: Remove the seed to use System.currentTimeMillis().
