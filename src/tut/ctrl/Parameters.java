@@ -39,6 +39,8 @@ public class Parameters {
     loose.put("cent2peri",Double.NaN);
     loose.put("peri2cent",Double.NaN);
     loose.put("cent2sink",Double.NaN);
+    loose.put("initialAcc", Double.NaN);
+    loose.put("morbidityDelay", Double.NaN);
   }
 
   public static Parameters readOneOfYou(java.io.InputStream is) {
