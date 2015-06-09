@@ -1,6 +1,7 @@
 {
   "version": "TUT-v0.4 Subversion$Revision$",
   "batch": {
+    "seed": 1433540689071
   },
   "tight": {
     "timeLimit": 25.0,

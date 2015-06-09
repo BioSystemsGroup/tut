@@ -1,3 +1,22 @@
+2015-06-09  gepr  <gepr@tempusdictum.com>
+
+	* view/Obs.java: Renamed from Observer, made abstract.
+
+	* view/ObsCompound.java: Implement compound specific observation.
+
+	* model/LooseDyn.java (relieveMorbidity(), registerMorbidity()): New functions to decrement and increment the "pain" accumulator, acc.
+
+	* model/LocaleDyn.java: Subclass of Locale which sends DE scheduled morbidity signals back to the LooseDyn model.
+
+	* model/Locale.java (ins): Allow subclasses of Comp.
+
+	* model/Comp.java (abstract): Don't need the abstract qualifier anymore.
+
+	* ctrl/Batch.java (LooseDyn): Add a dynamic version of the Loose model, where the model changes according to discrete event signals from one or more Compartments.
+	(ObsCompound): Use new implementation for concentration and fraction observer.
+	(load()): Instantiate, init, and schedule the new LooseDyn model.
+	(go(), finish()): Remove user feedback, which is useless while the simulation executes so fast.
+
 2015-06-01  gepr  <gepr@tempusdictum.com>
 
 	* view/Observer.java (fraction,step()): Measure dose fraction rather than concentration.

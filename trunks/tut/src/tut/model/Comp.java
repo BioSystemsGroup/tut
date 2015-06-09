@@ -9,7 +9,7 @@
  */
 package tut.model;
 
-public abstract class Comp implements sim.engine.Steppable {
+public class Comp implements sim.engine.Steppable {
   public int id = -Integer.MAX_VALUE;
   public double amount = Double.NaN;
   public boolean finished = false;
