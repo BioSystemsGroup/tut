@@ -19,8 +19,8 @@ if (length(argv) < 2) {
     quit()
 }
 
-MULTIPLOT <- FALSE
-PNG <- FALSE
+MULTIPLOT <- TRUE
+PNG <- TRUE
 
 roundDown <- function(x) {
   return (10^floor(log10(x)))

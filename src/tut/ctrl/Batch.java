@@ -18,6 +18,7 @@ public class Batch {
   static java.io.File dir = null;
   tut.model.Tight modelT = null;
   tut.model.Loose modelL = null;
+  tut.model.LooseDyn modelLD = null;
   
   public Batch(String en, tut.ctrl.Parameters p) {
     if (p != null) params = p;
@@ -44,9 +45,9 @@ public class Batch {
     state.schedule.scheduleOnce(modelT, MODEL_ORDER);
 
     // attach the observer for the the tightly coupled model
-    tut.view.Observer mTObs = new tut.view.Observer(expName, params);
+    tut.view.ObsCompound mTObs = new tut.view.ObsCompound(expName, params);
     mTObs.init(dir, modelT);
-    state.schedule.scheduleOnce(mTObs, tut.view.Observer.VIEW_ORDER);
+    state.schedule.scheduleOnce(mTObs, tut.view.ObsCompound.VIEW_ORDER);
     
     // launch the loosely coupled model
     modelL = new tut.model.Loose(params);
@@ -56,21 +57,31 @@ public class Batch {
     state.schedule.scheduleOnce(modelL, MODEL_ORDER);
     
     // attach the observer for the loosely coupled model
-    tut.view.Observer mLObs = new tut.view.Observer(expName, params);
+    tut.view.ObsCompound mLObs = new tut.view.ObsCompound(expName, params);
     mLObs.init(dir,modelL);
-    state.schedule.scheduleOnce(mLObs, tut.view.Observer.VIEW_ORDER);
+    state.schedule.scheduleOnce(mLObs, tut.view.ObsCompound.VIEW_ORDER);
+    
+    // launch the dynamic loosely coupled model
+    modelLD = new tut.model.LooseDyn(params);
+    modelLD.init(state, 
+            params.loose.get("timeLimit").doubleValue(),
+            params.loose.get("cyclePerTime").doubleValue());
+    state.schedule.scheduleOnce(modelLD, MODEL_ORDER);
+    
+    // attach the observer for the dynamic loosely coupled model
+    tut.view.ObsCompound mLDObs = new tut.view.ObsCompound(expName, params);
+    mLDObs.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObs, tut.view.ObsCompound.VIEW_ORDER);
   }
   
   public void go() {
     while (!modelT.finished || !modelL.finished)
       state.schedule.step(state);
-    System.out.print(String.format("\b\b\b\b\b%3.0f", state.schedule.getTime()/(getMaxCycle()-1)*100.0)+"% ");
     log("Batch.go() - Submodels are finished!");
   }
   
   public void finish() {
     log.close();
-    System.out.println("Finished.  Wait for buffered output.");
   }
 
   private static java.io.PrintWriter log = null;

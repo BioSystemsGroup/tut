@@ -12,8 +12,8 @@ package tut.model;
 import java.util.Map;
 
 public class Locale extends Comp {
-  Map<Locale,Double> ins = null;
-  public void setIns(Map<Locale,Double> inl) { ins = inl; }
+  Map<? extends Locale,Double> ins = null;
+  public void setIns(Map<? extends Locale,Double> inl) { ins = inl; }
   double volume = Double.NaN;
   
   public Locale(int i, double start, double v) {
@@ -27,7 +27,7 @@ public class Locale extends Comp {
     
     if (ins == null) return;  // null inputs = source
     
-    for (Map.Entry<Locale,Double> me : ins.entrySet()) {
+    for (Map.Entry<? extends Locale,Double> me : ins.entrySet()) {
       Locale in = me.getKey();
       double inc = in.amount*me.getValue();
       in.amount -= inc;

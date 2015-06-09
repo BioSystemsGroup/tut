@@ -9,15 +9,14 @@
  */
 package tut.view;
 
-public class Observer implements sim.engine.Steppable {
+public abstract class Obs implements sim.engine.Steppable {
   public static int VIEW_ORDER = 20;
   tut.model.Model subject = null;
   String expName = null;
   java.io.PrintWriter outFile = null;
   tut.ctrl.Parameters params = null;
-  private final boolean fraction = true;
-  
-  public Observer(String en, tut.ctrl.Parameters p) {
+
+  public Obs(String en, tut.ctrl.Parameters p) {
     params = p;
     if (en != null && !en.equals("")) expName = en;
     else throw new RuntimeException("Experiment name cannot be null or empty.");
@@ -36,35 +35,22 @@ public class Observer implements sim.engine.Steppable {
         outFile = new java.io.PrintWriter(new java.io.File(fileName));
       } catch (java.io.IOException ioe) { throw new RuntimeException(ioe); }
     }
-
-    // write the output file header
-    StringBuilder sb = new StringBuilder("Time, ");
-    java.util.ListIterator<tut.model.Comp> cIt = m.comps.listIterator();
-    while (true) {
-      tut.model.Comp c = cIt.next();
-      sb.append("Comp").append(c.id).append((fraction ? ".fract" : ".conc"));
-      if (cIt.hasNext()) sb.append(", ");
-      else break;
-    }
-    outFile.println(sb.toString());
     
-    System.out.print("Running:       ");
+    writeHeader();
   }
+
+  public abstract void writeHeader();
+  public abstract java.util.ArrayList<Double> measure();
   
   @Override
   public void step(sim.engine.SimState state) {
+    java.util.ArrayList<Double> data = measure();
+    double t = state.schedule.getTime()/subject.cyclePerTime;
+    StringBuilder sb = new StringBuilder(Double.toString(t));
+    data.stream().forEach((v) -> { sb.append(", ").append(v); });
+    outFile.println(sb.toString()); outFile.flush();
+
     if (!subject.finished) {
-      StringBuilder sb = new StringBuilder(state.schedule.getTime()/subject.cyclePerTime+",");
-      java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
-      while (true) {
-        tut.model.Comp c = cIt.next();
-        double result = (fraction ? subject.getFraction(c) : subject.getConc(c));
-        sb.append(result);
-        if (cIt.hasNext()) sb.append(", ");
-        else break;
-      }
-      outFile.println(sb.toString()); outFile.flush();
-    
       state.schedule.scheduleOnce(this, VIEW_ORDER);
     }
   }
