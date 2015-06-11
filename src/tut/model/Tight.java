@@ -14,6 +14,7 @@ import java.util.function.Function;
 public class Tight extends Model {
   double k_a = Double.NaN, k_12 = Double.NaN, k_21 = Double.NaN;
   double k_10 = Double.NaN, dose = Double.NaN, vc = Double.NaN;
+  
   public Tight(tut.ctrl.Parameters p) {
     super(p);
   }
@@ -21,7 +22,8 @@ public class Tight extends Model {
   public void init(sim.engine.SimState state, double tl, double cpt) {
     super.init(state, tl, cpt);
     calcConstants();
-    
+
+    dose_time = params.tight.get("doseTime").doubleValue();
     Function<Double,Double> func = concCent();
     FunctionCall comp = new FunctionCall(0, func, 0.0);
     state.schedule.scheduleOnce(comp, SUB_ORDER);
@@ -64,16 +66,19 @@ public class Tight extends Model {
 
   Function<Double, Double> concCent() {
     return (Double c) -> {
-      double t = c/cyclePerTime;
-      return A*Math.exp(-α*t) + B*Math.exp(-β*t) - (A+B)*Math.exp(-k_a*t);
+      double t = c/cyclePerTime-dose_time;
+      if (dosed) return A*Math.exp(-α*t) + B*Math.exp(-β*t) - (A+B)*Math.exp(-k_a*t);
+      else return 0.0;
     };
   }
   Function<Double, Double> concPeriph() {
     return (Double c) -> {
-      double t = c/cyclePerTime;
-      return (A*k_21)/(k_21-α) * Math.exp(-α*t)
-              + (B*k_21)/(k_21-β) * Math.exp(-β*t)
-              + ((B-A)*k_21)/(k_21-k_a) * Math.exp(-k_a*t);
+      double t = c/cyclePerTime-dose_time;
+      if (dosed)
+        return (A*k_21)/(k_21-α) * Math.exp(-α*t)
+                + (B*k_21)/(k_21-β) * Math.exp(-β*t)
+                + ((B-A)*k_21)/(k_21-k_a) * Math.exp(-k_a*t);
+      else return 0.0;
     };
   }
 }

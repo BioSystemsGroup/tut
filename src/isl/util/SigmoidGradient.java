@@ -33,7 +33,7 @@ public class SigmoidGradient extends LinearGradient {
     double val = LinearGradient.eval(10.0, 0.0, valX, valY, x);
     //log.debug("SigmoidGradient: "+val+" = 0.0 + "+x+" * (10.0-0.0)/("+valY+"-"+valX+")");
     double retVal = refX + (refY-refX)/(1.0+StrictMath.exp(val-5.0));
-    log.debug("SigmoidGradient: "+retVal+" = "+refX+" + ("+refY+"-"+refX+")/(1.0+e^("+val+"-5.0))");
+    //log.debug("SigmoidGradient: "+retVal+" = "+refX+" + ("+refY+"-"+refX+")/(1.0+e^("+val+"-5.0))");
     return retVal;
   }
   public static void main(String[] args) {

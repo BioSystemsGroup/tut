@@ -47,13 +47,17 @@ public class LocaleDyn extends Locale {
               tut.model.Model.SUB_ORDER);
     } else {
       cyclesWORelief++;
+      double intensity = isl.util.SigmoidGradient.eval(0.0, body.MAX_ACC, 0.0, morb_delay, (double)cyclesWORelief/body.cyclePerTime);
+      body.registerMorbidity(intensity);
+      
       // schedule registration for the future
-      double now = state.schedule.getTime();
-      state.schedule.scheduleOnce(now+morb_delay, tut.model.Model.SUB_ORDER, 
-              (sim.engine.SimState s) -> { 
-                double intensity = isl.util.SigmoidGradient.eval(0.0, body.MAX_ACC, 0.0, morb_delay, (double)cyclesWORelief/body.cyclePerTime);
-                body.registerMorbidity(intensity);
-              });
+//      double now = state.schedule.getTime();
+//      state.schedule.scheduleOnce(now+1.0/*morb_delay*/, tut.model.Model.SUB_ORDER, 
+//              (sim.engine.SimState s) -> { 
+//                double intensity = isl.util.SigmoidGradient.eval(0.0, body.MAX_ACC, 0.0, morb_delay, (double)cyclesWORelief/body.cyclePerTime);
+//                cyclesWORelief++;
+//                body.registerMorbidity(intensity);
+//              });
     }
   }
 }

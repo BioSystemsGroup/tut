@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class LooseDyn extends Model {
   private double dose = Double.NaN, vc = Double.NaN;
   public double acc = Double.NaN; // accumulator for "pain"
+  double acc_factor = 1.0;
   public double MAX_ACC = 10.0;
   private final double RELIEF_BOTTOM = 0.30, RELIEF_TOP=0.70;
   
@@ -28,8 +29,9 @@ public class LooseDyn extends Model {
     acc = params.loose.get("initialAcc").intValue();
     double morb_delay_hr = params.loose.get("morbidityDelay").doubleValue();
     // create and schedule the Compartments
+    dose_time = params.loose.get("doseTime").doubleValue();
     dose = params.loose.get("dose").doubleValue();
-    LocaleDyn source = new LocaleDyn(this, 0, dose, 1.0);
+    LocaleDyn source = new LocaleDyn(this, 0, 0.0, 1.0);
     state.schedule.scheduleOnce(source, SUB_ORDER);
     vc = params.loose.get("vc").doubleValue();
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
@@ -64,9 +66,12 @@ public class LooseDyn extends Model {
     if (acc < 0.0) acc = 0.0;
   }
   public void registerMorbidity(double intensity) {
-    acc += intensity;
+    //acc += intensity*acc_factor;
+    acc = intensity;
     if (acc > 10.0) acc = 10.0;
   }
+  @Override
+  protected void dose() { super.dose(); comps.get(0).amount = dose; }
   
   @Override
   public double getConc(Comp c) {
