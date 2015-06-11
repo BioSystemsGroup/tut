@@ -23,6 +23,7 @@ public class Parameters {
     
     tight.put("timeLimit",-Long.MAX_VALUE);
     tight.put("cyclePerTime",Double.NaN);
+    tight.put("doseTime", Double.NaN);
     tight.put("dose",Double.NaN);
     tight.put("vc",Double.NaN);
     tight.put("k_a",Double.NaN);
@@ -32,6 +33,7 @@ public class Parameters {
     
     loose.put("timeLimit",-Long.MAX_VALUE);
     loose.put("cyclePerTime",Double.NaN);
+    loose.put("doseTime", Double.NaN);
     loose.put("dose",Double.NaN);
     loose.put("vc",Double.NaN);
     loose.put("vp",Double.NaN);

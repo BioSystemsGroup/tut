@@ -23,8 +23,9 @@ public class Loose extends Model {
     super.init(state, tl, cpt);
     
     // create and schedule the Compartments
+    dose_time = params.loose.get("doseTime").doubleValue();
     dose = params.loose.get("dose").doubleValue();
-    Locale source = new Locale(0, dose, 1.0);
+    Locale source = new Locale(0, 0.0, 1.0);
     state.schedule.scheduleOnce(source, SUB_ORDER);
     vc = params.loose.get("vc").doubleValue();
     Locale central = new Locale(1, 0.0, vc);
@@ -62,6 +63,8 @@ public class Loose extends Model {
   public double getFraction(Comp c) {
     return getConc(c) * vc/dose;
   }
+  @Override
+  protected void dose() { super.dose(); comps.get(0).amount = dose; }
 
   @Override
   public void step(sim.engine.SimState state) {

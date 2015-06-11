@@ -4,8 +4,9 @@
     "seed": 1433540689071
   },
   "tight": {
-    "timeLimit": 25.0,
+    "timeLimit": 480.0,
     "cyclePerTime": 4.0,
+    "doseTime": 240.0,
     "dose": 100.0,
     "vc": 10.0,
     "k_a": 3.0,
@@ -14,8 +15,9 @@
     "k_10": 0.1
    },
   "loose": {
-    "timeLimit": 25.0,
+    "timeLimit": 480.0,
     "cyclePerTime": 10.0,
+    "doseTime": 240.0,
     "dose": 10.0,
     "vc": 1.0,
     "vp": 3.5,
@@ -23,7 +25,7 @@
     "cent2peri": 0.1,
     "peri2cent": 0.03,
     "cent2sink": 0.01,
-    "initialAcc": 5.0,
-    "morbidityDelay": 10.0
+    "initialAcc": 0.0,
+    "morbidityDelay": 24.0
   }
 }

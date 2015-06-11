@@ -1,3 +1,13 @@
+2015-06-11  gepr  <gepr@tempusdictum.com>
+
+	* model/Model, model/Tight (dose_time, dose()): Allow the sim to run for awhile before being dosed.  Tight concentrations are kept at zero until the model is dosed.
+
+	* model/Loose, model/LooseDyn (init()): Start with Source compound concentration set to 0.0.  Implement a dose() function.
+
+	* model/LocaleDyn.java (handleMorbidity): Remove discrete event for morbidity signal.  Set directly in the LooseDyn.
+
+	* ctrl/Parameters.java (doseTime): Add doseTime parameter so sim will execute for awhile before being dosed.
+
 2015-06-09  gepr  <gepr@tempusdictum.com>
 
 	* view/Obs.java (init()): With the new observer, we need a new file, distinguished by adding the name of the Obs subclass.

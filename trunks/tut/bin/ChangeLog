@@ -1,3 +1,7 @@
+2015-06-11  gepr  <gepr@tempusdictum.com>
+
+	* cmp-by-model.r: Update to include the LooseDyn model plots.
+
 2015-06-08  gepr  <gepr@tempusdictum.com>
 
 	* agg.r, cmp-by-model.r: Add option to print SVG and single plot per page.  Also change the way limits are computed, formatting, etc.

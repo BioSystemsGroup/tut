@@ -16,6 +16,8 @@ public abstract class Model implements sim.engine.Steppable {
   public ec.util.MersenneTwisterFast pRNG = null;
   public boolean finished = false;
   tut.ctrl.Parameters params = null;
+  boolean dosed = false;
+  double dose_time = Double.NaN;
   public double timeLimit = Double.NaN;
   public double cyclePerTime = Double.NaN;
   
@@ -37,9 +39,12 @@ public abstract class Model implements sim.engine.Steppable {
 
   public abstract double getConc(Comp c);
   public abstract double getFraction(Comp c);
+  protected void dose() { dosed = true; }
 
   @Override
   public void step(sim.engine.SimState state) {
+    if (!dosed && state.schedule.getTime()/cyclePerTime >= dose_time) dose();
+    
     if (state.schedule.getTime() < timeLimit*cyclePerTime )
       state.schedule.scheduleOnce(this, tut.ctrl.Batch.MODEL_ORDER);
     else {
