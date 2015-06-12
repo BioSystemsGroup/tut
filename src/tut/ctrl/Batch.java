@@ -72,10 +72,14 @@ public class Batch {
     tut.view.ObsDrug mLDObsC = new tut.view.ObsDrug(expName, params);
     mLDObsC.init(dir,modelLD);
     state.schedule.scheduleOnce(mLDObsC, tut.view.Obs.VIEW_ORDER);
-    // attach the acc observer
-    tut.view.ObsPain mLDObsA = new tut.view.ObsPain(expName, params);
-    mLDObsA.init(dir,modelLD);
-    state.schedule.scheduleOnce(mLDObsA, tut.view.Obs.VIEW_ORDER);
+    // attach the pain observer
+    tut.view.ObsPain mLDObsP = new tut.view.ObsPain(expName, params);
+    mLDObsP.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObsP, tut.view.Obs.VIEW_ORDER);
+    // the marker observer
+    tut.view.ObsMarker mLDObsM = new tut.view.ObsMarker(expName, params);
+    mLDObsM.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObsM, tut.view.Obs.VIEW_ORDER);
   }
   
   public void go() {

@@ -41,7 +41,14 @@ public abstract class Obs implements sim.engine.Steppable {
     writeHeader();
   }
 
-  public abstract void writeHeader();
+  public void writeHeader() {
+    StringBuilder sb = new StringBuilder("Time");
+    subject.comps.stream().forEach((c) -> {
+      sb.append(", Comp").append(c.id);
+    });
+    outFile.println(sb.toString());
+  }
+
   public abstract java.util.ArrayList<Double> measure();
   
   @Override
