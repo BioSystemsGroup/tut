@@ -21,6 +21,6 @@ public class FunctionCall extends Comp {
   @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
-    amount = func.apply(state.schedule.getTime());
+    particles.get("Drug").val = func.apply(state.schedule.getTime());
   }
 }

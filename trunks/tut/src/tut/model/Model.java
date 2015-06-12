@@ -24,11 +24,14 @@ public abstract class Model implements sim.engine.Steppable {
   /**
    * comps allows us to decouple the Observer from the specific Model
    */
-  public ArrayList<Comp> comps = new ArrayList<>();
+  public ArrayList<? extends Comp> comps = null;
   
   public Model(tut.ctrl.Parameters p) {
     if (p != null) params = p;
   }
+  
+  abstract void instantiate();
+  
   public void init(sim.engine.SimState state, double tl, double cpt) {
     pRNG = state.random;
     if (tl > 0.0) timeLimit = tl;

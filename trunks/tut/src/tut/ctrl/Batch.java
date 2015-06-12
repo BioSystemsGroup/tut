@@ -45,9 +45,9 @@ public class Batch {
     state.schedule.scheduleOnce(modelT, MODEL_ORDER);
 
     // attach the observer for the the tightly coupled model
-    tut.view.ObsCompound mTObs = new tut.view.ObsCompound(expName, params);
+    tut.view.ObsDrug mTObs = new tut.view.ObsDrug(expName, params);
     mTObs.init(dir, modelT);
-    state.schedule.scheduleOnce(mTObs, tut.view.ObsCompound.VIEW_ORDER);
+    state.schedule.scheduleOnce(mTObs, tut.view.ObsDrug.VIEW_ORDER);
     
     // launch the loosely coupled model
     modelL = new tut.model.Loose(params);
@@ -57,7 +57,7 @@ public class Batch {
     state.schedule.scheduleOnce(modelL, MODEL_ORDER);
     
     // attach the observer for the loosely coupled model
-    tut.view.ObsCompound mLObs = new tut.view.ObsCompound(expName, params);
+    tut.view.ObsDrug mLObs = new tut.view.ObsDrug(expName, params);
     mLObs.init(dir,modelL);
     state.schedule.scheduleOnce(mLObs, tut.view.Obs.VIEW_ORDER);
     
@@ -69,11 +69,11 @@ public class Batch {
     state.schedule.scheduleOnce(modelLD, MODEL_ORDER);
     
     // attach the compound observer for the dynamic loosely coupled model
-    tut.view.ObsCompound mLDObsC = new tut.view.ObsCompound(expName, params);
+    tut.view.ObsDrug mLDObsC = new tut.view.ObsDrug(expName, params);
     mLDObsC.init(dir,modelLD);
     state.schedule.scheduleOnce(mLDObsC, tut.view.Obs.VIEW_ORDER);
     // attach the acc observer
-    tut.view.ObsAcc mLDObsA = new tut.view.ObsAcc(expName, params);
+    tut.view.ObsPain mLDObsA = new tut.view.ObsPain(expName, params);
     mLDObsA.init(dir,modelLD);
     state.schedule.scheduleOnce(mLDObsA, tut.view.Obs.VIEW_ORDER);
   }

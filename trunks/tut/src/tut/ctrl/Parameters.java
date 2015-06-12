@@ -16,7 +16,8 @@ public class Parameters {
   String version = "";
   public Map<String,Number> batch = new HashMap<>(2);
   public Map<String,Number> tight = new HashMap<>(6);
-  public Map<String,Number> loose = new HashMap<>();
+  public Map<String,Number> loose = new HashMap<>(11);
+  public Map<String,Number> looseDyn = new HashMap<>(1);
   
   public Parameters() {
     batch.put("seed",-Long.MAX_VALUE);
@@ -41,8 +42,8 @@ public class Parameters {
     loose.put("cent2peri",Double.NaN);
     loose.put("peri2cent",Double.NaN);
     loose.put("cent2sink",Double.NaN);
-    loose.put("initialAcc", Double.NaN);
-    loose.put("morbidityDelay", Double.NaN);
+    
+    looseDyn.put("morbidity",Double.NaN);
   }
 
   public static Parameters readOneOfYou(java.io.InputStream is) {

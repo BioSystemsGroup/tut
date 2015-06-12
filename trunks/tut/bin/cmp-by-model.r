@@ -14,7 +14,7 @@ argv <- commandArgs(TRUE)
 if (length(argv) < 2) {
     print("Usage: cmp-by-model.r <exp directories>")
     print("  e.g. cmp-by-model.r case-??x")
-    print("  directories should contain files like: case-01-Loose-ObsCompound.csv")
+    print("  directories should contain files like: case-01-Loose-ObsDrug.csv")
     print("Note that columns must match across all .csv files.")
     quit()
 }
@@ -47,15 +47,15 @@ for (exp in argv) {
   titles[[expnum]] <- exp
   multiName.base <- ifelse(exists("multiName.base"),paste(multiName.base,exp,sep="-"), exp)
 
-  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-Tight-ObsCompound.csv")
+  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-Tight-ObsDrug.csv")
   fileName <- paste(exp,"/",files,sep="")
   tight[[expnum]] <- read.csv(fileName)
 
-  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-Loose-ObsCompound.csv")
+  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-Loose-ObsDrug.csv")
   fileName <- paste(exp,"/",files,sep="")
   loose[[expnum]] <- read.csv(fileName)
 
-  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-LooseDyn-ObsCompound.csv")
+  files <- list.files(path=paste(exp,"/",sep=""),pattern="[.]*-LooseDyn-ObsDrug.csv")
   fileName <- paste(exp,"/",files,sep="")
   looseDyn[[expnum]] <- read.csv(fileName)
   expnum <- expnum+1
