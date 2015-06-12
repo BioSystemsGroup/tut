@@ -27,11 +27,15 @@ public class Locale extends Comp {
     
     if (ins == null) return;  // null inputs = source
     
-    for (Map.Entry<? extends Locale,Double> me : ins.entrySet()) {
-      Locale in = me.getKey();
-      double inc = in.amount*me.getValue();
-      in.amount -= inc;
-      amount += inc;
+    for (Map.Entry<? extends Locale,Double> cme : ins.entrySet()) {
+      Locale inComp = cme.getKey();
+      double inRate = cme.getValue();
+      for (Map.Entry<String,sim.util.MutableDouble> sme : particles.entrySet()) {
+        sim.util.MutableDouble inSpecies = inComp.particles.get(sme.getKey());
+        double inc = inSpecies.val*inRate;
+        inSpecies.val -= inc; // decrement theirs
+        particles.get(sme.getKey()).val += inc; // increment mine
+      }
     }
   }
 }

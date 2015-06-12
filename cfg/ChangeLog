@@ -1,6 +1,7 @@
 2015-06-11  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json(doseTime): Add a new parameter so that the simulation will execute for awhile before it is dosed with compound.
+	New model parameter sublist for LooseDyn containing the morbidity amount.
 
 2015-06-09  gepr  <gepr@tempusdictum.com>
 

@@ -9,19 +9,23 @@
  */
 package tut.view;
 
-public class ObsCompound extends Obs {
-  private final boolean fraction = true;
-  
-  public ObsCompound(String en, tut.ctrl.Parameters p) {
+import tut.model.LooseDyn;
+
+public class ObsPain extends Obs {
+  public ObsPain(String en, tut.ctrl.Parameters p) {
     super(en,p);
   }
-  
+
+  @Override
+  public void init(java.io.File dir, tut.model.Model m) {
+    super.init(dir,m);
+    if (!(m instanceof LooseDyn)) throw new RuntimeException("Pain can only be measured from LooseDyn");
+  }
   @Override
   public void writeHeader() {
-    // write the output file header
     StringBuilder sb = new StringBuilder("Time");
     subject.comps.stream().forEach((c) -> {
-      sb.append(", Comp").append(c.id).append((fraction ? ".fract" : ".conc"));
+      sb.append(", Comp").append(c.id);
     });
     outFile.println(sb.toString());
   }
@@ -29,12 +33,9 @@ public class ObsCompound extends Obs {
   @Override
   public java.util.ArrayList<Double> measure() {
     java.util.ArrayList<Double> retVal = new java.util.ArrayList<>();
-    java.util.ListIterator<tut.model.Comp> cIt = subject.comps.listIterator();
     subject.comps.stream().forEach((c) -> {
-      double result = (fraction ? subject.getFraction(c) : subject.getConc(c));
-      retVal.add(result);
+      retVal.add(((tut.model.LocaleDyn)c).pain);
     });
     return retVal;
   }
-  
 }

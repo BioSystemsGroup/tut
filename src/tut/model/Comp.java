@@ -11,12 +11,12 @@ package tut.model;
 
 public class Comp implements sim.engine.Steppable {
   public int id = -Integer.MAX_VALUE;
-  public double amount = Double.NaN;
+  public java.util.LinkedHashMap<String, sim.util.MutableDouble> particles = new java.util.LinkedHashMap<>(1);
   public boolean finished = false;
   
   public Comp(int i, double start) {
     id = i;
-    amount = start;
+    particles.put("Drug", new sim.util.MutableDouble(start));
     tut.ctrl.Batch.log("Comp("+id+", "+start+")");
   }
   

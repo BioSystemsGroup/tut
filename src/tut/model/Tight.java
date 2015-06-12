@@ -18,27 +18,35 @@ public class Tight extends Model {
   public Tight(tut.ctrl.Parameters p) {
     super(p);
   }
+  
+  @Override
+  void instantiate() {
+    java.util.ArrayList<FunctionCall> tmpComps = new java.util.ArrayList<>(2);
+    Function<Double,Double> func = concCent();
+    FunctionCall comp = new FunctionCall(0, func, 0.0);
+    tmpComps.add(comp);
+
+    func = concPeriph();
+    comp = new FunctionCall(1, func, 0.0);
+    tmpComps.add(comp);
+    
+    comps = tmpComps;
+  }
   @Override
   public void init(sim.engine.SimState state, double tl, double cpt) {
     super.init(state, tl, cpt);
     calcConstants();
 
     dose_time = params.tight.get("doseTime").doubleValue();
-    Function<Double,Double> func = concCent();
-    FunctionCall comp = new FunctionCall(0, func, 0.0);
-    state.schedule.scheduleOnce(comp, SUB_ORDER);
-    comps.add(comp);
-    
-    func = concPeriph();
-    comp = new FunctionCall(1, func, 0.0);
-    state.schedule.scheduleOnce(comp, SUB_ORDER);
-    comps.add(comp);
+    instantiate();
+    state.schedule.scheduleOnce(comps.get(0), SUB_ORDER);
+    state.schedule.scheduleOnce(comps.get(1), SUB_ORDER);
   }
 
   @Override
-  public double getConc(Comp c) { return c.amount; }
+  public double getConc(Comp c) { return c.particles.get("Drug").val; }
   @Override
-  public double getFraction(Comp c) { return c.amount * vc/dose; }
+  public double getFraction(Comp c) { return c.particles.get("Drug").val * vc/dose; }
   
   @Override
   public void step(sim.engine.SimState state) {

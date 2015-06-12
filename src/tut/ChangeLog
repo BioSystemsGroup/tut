@@ -1,5 +1,24 @@
 2015-06-11  gepr  <gepr@tempusdictum.com>
 
+	* view/[ObsDrug|ObsPain]: Replaced ObsCompound and ObsAcc.
+
+	* model/Loose.java (getConc(), dose()): Use new particles Map.
+
+	* model/[Model|Tight|Loose|LooseDyn]: LooseDyn now inherits from Loose.  init() split out a new method instantiate() which is overridden by the subclasses to handled different code for instantiation.
+
+	* model/LocaleDyn.java (morbidity, setMorbidity(), pain, controller, setController()): Morbidity changed from boolean to double.  Acc moved from LooseDyn to LocaleDyn and renamed "pain".  Added controller boolean, which will govern the relationship between marker and pain.
+	(step()): Add call to eliminateMarker() governed by controller.
+
+	* model/Locale.java (step()): Change to use the particles Map.  Loop through all elements of particles (though Loose only has the one.)
+
+	* model/FunctionCall.java (step()): Use new particles Map to update amount of "Drug".
+
+	* model/Comp.java (drug, particles): Move from explicit double IVar drug to a Map of MutableDoubles that will only contain "Drug" for Loose, but will contain both "Drug" and "Marker" for LooseDyn.
+
+	* ctrl/Parameters.java (looseDyn.morbidity): New sublist for LooseDyn and new morbidity parameter.
+
+	* ctrl/Batch.java (load()): Change ObsCompound to ObsDrug.
+
 	* model/Model, model/Tight (dose_time, dose()): Allow the sim to run for awhile before being dosed.  Tight concentrations are kept at zero until the model is dosed.
 
 	* model/Loose, model/LooseDyn (init()): Start with Source compound concentration set to 0.0.  Implement a dose() function.

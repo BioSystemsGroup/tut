@@ -24,8 +24,9 @@
     "src2cent": 0.3,
     "cent2peri": 0.1,
     "peri2cent": 0.03,
-    "cent2sink": 0.01,
-    "initialAcc": 0.0,
-    "morbidityDelay": 24.0
-  }
+    "cent2sink": 0.01
+   },
+  "looseDyn": {
+      "morbidity": 5.0
+   }
 }
