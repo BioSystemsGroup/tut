@@ -1,3 +1,11 @@
+2015-06-12  gepr  <gepr@tempusdictum.com>
+
+	* view/ObsMarker.java: New.
+
+	* view/Obs.java (writeHeader()): Promote generic header from ObsPain to here because it's used for ObsMarker as well.
+
+	* ctrl/Batch.java (load()): Create and schedule the ObsMarker.
+
 2015-06-11  gepr  <gepr@tempusdictum.com>
 
 	* view/[ObsDrug|ObsPain]: Replaced ObsCompound and ObsAcc.

@@ -27,6 +27,6 @@
     "cent2sink": 0.01
    },
   "looseDyn": {
-      "morbidity": 5.0
+      "morbidity": 0.1
    }
 }

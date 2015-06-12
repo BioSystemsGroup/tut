@@ -49,6 +49,6 @@ public class LocaleDyn extends Locale {
   }
   
   private void handleMorbidity() {
-    
+    particles.get("Marker").val += morbidity;
   }
 }
