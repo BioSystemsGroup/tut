@@ -23,9 +23,9 @@ public class LooseDyn extends Loose {
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
     LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
     double morbidity = params.looseDyn.get("morbidity").doubleValue();
-    periph.setMorbidity(morbidity, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc);
+    periph.setMorbidity(morbidity);
     LocaleDyn sink = new LocaleDyn(this, 3, 0.0, 1.0);
-    sink.setController(true);
+    sink.setController(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc);
     // store them in the ArrayList
     java.util.ArrayList<LocaleDyn> tmpComps = new java.util.ArrayList<>(4);
     tmpComps.add(source);

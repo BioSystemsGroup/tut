@@ -11,19 +11,20 @@ package tut.ctrl;
 
 public class GUI extends sim.display.GUIState {
   Batch batch = null;
-  sim.display.Console console = new sim.display.Console(this);
+  sim.display.Console console = null;
   
   public GUI(Batch b) {
     super(b.state);
     batch = b;
+    console = new sim.display.Console(this);
     Thread.currentThread().setPriority(1);
     console.setVisible(true);
   }
   @Override
   public void start() {
     super.start();
-    console.setWhenShouldPause((long)batch.getMaxCycle());
     batch.load();
+    console.setWhenShouldPause((long)batch.getMaxCycle());
   }
   public void load() {
     batch.load();

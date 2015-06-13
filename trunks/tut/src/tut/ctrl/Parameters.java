@@ -44,14 +44,38 @@ public class Parameters {
     loose.put("cent2sink",Double.NaN);
     
     looseDyn.put("morbidity",Double.NaN);
+    looseDyn.put("morb2mark", Double.NaN);
+    looseDyn.put("mark2pain", Double.NaN);
+    looseDyn.put("drug2pain", Double.NaN);
   }
 
-  public static Parameters readOneOfYou(java.io.InputStream is) {
+  private boolean test(String name, Map<String,Number> ref, Map<String,Number> map) {
+    java.util.Optional<Map.Entry<String, Number>> broken = ref.entrySet().stream().filter(me -> map.get(me.getKey()) == null).findAny();
+    if (broken.isPresent())
+      tut.ctrl.Batch.log(name+"."+broken.get().getKey()+" not found in parameter file.");
+    return broken.isPresent();
+  }
+  private boolean test() {
+    boolean retVal = true;
+    Parameters testP = new Parameters();
+    if (test("batch", testP.batch, batch)) retVal = false;
+    if (test("tight", testP.tight, tight)) retVal = false;
+    if (test("loose", testP.loose, loose)) retVal = false;
+    if (test("looseDyn", testP.looseDyn, looseDyn)) retVal = false;
+    return retVal;
+  }
+
+  public static Parameters readOneOfYou(String json) {
     Parameters p = null;
     com.google.gson.Gson gson = new com.google.gson.Gson();
-    String json = null;
-    json = new java.util.Scanner(is).useDelimiter("\\A").next();
     if (json != null) p = gson.fromJson (json, Parameters.class); 
+    if (p != null) p.test();
+    else throw new RuntimeException("Problem loading parameters. Gson returned null.");
+    return p;
+  }
+  public static Parameters readOneOfYou(java.io.InputStream is) {
+    String json = new java.util.Scanner(is).useDelimiter("\\A").next();
+    Parameters p = readOneOfYou(json);
     return p;
   }
   
