@@ -35,11 +35,9 @@ public class Main {
       pf = Main.class.getResourceAsStream(fileName);
       if (pf == null) throw new RuntimeException("Could not find default parameters file in CLASSPATH.");
     }
-    tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(pf);
-    
-    String expName = "default";
+    String expName = null;
     if (fileName != null && !fileName.equals("")) expName = fileName.substring(fileName.lastIndexOf('/'),fileName.indexOf(".json"));
-    tut.ctrl.Batch b = new tut.ctrl.Batch(expName, p);
+    tut.ctrl.Batch b = new tut.ctrl.Batch(expName, pf);
     
     if (useGUI) {
       gui = new tut.ctrl.GUI(b);

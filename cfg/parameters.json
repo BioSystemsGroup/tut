@@ -1,7 +1,7 @@
 {
   "version": "TUT-v0.4 Subversion$Revision$",
   "batch": {
-    "seed": 1433540689071
+    "seed": 1234567890
   },
   "tight": {
     "timeLimit": 480.0,
@@ -27,6 +27,9 @@
     "cent2sink": 0.01
    },
   "looseDyn": {
-      "morbidity": 0.1
+      "morbidity": 1.0,
+      "morb2mark": 0.001,
+      "mark2pain": 0.001,
+      "drug2pain": 1.0
    }
 }

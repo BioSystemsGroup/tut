@@ -1,3 +1,22 @@
+2015-06-13  gepr  <gepr@tempusdictum.com>
+
+	* model/LooseDyn.java (instantiate()): Move the setting of [reliefBottom, reliefTop] from setMorbidity() to setController().
+
+	* model/LocaleDyn.java (setController(), setMorbidity()): Moved [reliefBottom, releifTop] from setMorbidity() to setController() where it belongs.
+	(handleMorbidity()): Use new morb2mark parameter.
+	(eliminateMarker(), relievePain()):  Use new mark2pain and drug2pain parameters.
+
+	* ctrl/Parameters.java (morb2mark, mark2pain, drug2pain): New looseDyn parameters.
+	(test()): 2 new methods to ensure all necessary parameters are present.  Missing parameters are reported to the Batch.log output file.
+	(readOneOfYou()): new polymorph, one takes a string, the other takes the input stream.  This allows us to re-read the string several times without messing with the file pointer.
+
+	* ctrl/GUI.java: Change the way this manages the Batch so that we can write to the Batch.log earlier.
+
+	* ctrl/Batch.java: Change the way Batch is invoked, managed by GUI, seed, etc. in order to allow early exceptions that occur when reading parameter files to be written to the Batch.log.
+	(writeParameters(), setupOutput()): separate this functionality so that output can be set up before parameters are read.
+
+	* Main.java (main()): Send parameter file input stream to Batch, rather than the instantiated Parameters object.
+
 2015-06-12  gepr  <gepr@tempusdictum.com>
 
 	* view/ObsMarker.java: New.

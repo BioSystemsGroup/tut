@@ -1,3 +1,7 @@
+2015-06-13  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json (morb2mark, mark2pain, drug2pain): New parameters for morbidity.
+
 2015-06-11  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json(doseTime): Add a new parameter so that the simulation will execute for awhile before it is dosed with compound.

@@ -14,28 +14,34 @@ public class Batch {
   long seed = -Integer.MAX_VALUE;
   Parameters params = null;
   public sim.engine.SimState state = null;
-  public static String expName="notset";
+  public static String expName = "notset";
+  private static String out_dir_name = null;
   static java.io.File dir = null;
   tut.model.Tight modelT = null;
   tut.model.Loose modelL = null;
   tut.model.LooseDyn modelLD = null;
+  String paramString;
   
-  public Batch(String en, tut.ctrl.Parameters p) {
-    if (p != null) params = p;
+  public Batch(String en, java.io.InputStream pf) {
+    if (en != null && !en.equals("")) expName = en;
+    else throw new RuntimeException("Experiment name cannot be null or empty.");
+    paramString = new java.util.Scanner(pf).useDelimiter("\\A").next();
+    state = new sim.engine.SimState(System.currentTimeMillis());
+  }
+  public final void load() {
+    out_dir_name = setupOutput(expName);
+    tut.ctrl.Parameters p = tut.ctrl.Parameters.readOneOfYou(paramString);
+    params = p;
     Number seed_n = params.batch.get("seed");
     if (seed_n != null) {
       seed = seed_n.longValue();
+      state.random = new ec.util.MersenneTwisterFast(seed);
     } else {
-      seed = System.currentTimeMillis();
+      seed = state.seed();
       params.batch.put("seed",seed);
     }
-    if (en != null && !en.equals("")) expName = en;
-    else throw new RuntimeException("Experiment name cannot be null or empty.");
-    state = new sim.engine.SimState(seed);
-  }
-  public final void load() {
-    // setup output target
-    setupOutput(params);
+
+    writeParameters(out_dir_name, params);
 
     // launch the tightly coupled model
     modelT = new tut.model.Tight(params);
@@ -94,22 +100,33 @@ public class Batch {
 
   private static java.io.PrintWriter log = null;
   public static void log(String entry) { log.println(entry); log.flush(); }
-  static void setupOutput(Parameters p) {
-    String out_dir = null;
+  
+  static String setupOutput(String en) {
     final String DATE_FORMAT = "yyyy-MM-dd-HHmmss";
     final java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
     StringBuffer date_s = new StringBuffer("");
     sdf.format(new java.util.Date(System.currentTimeMillis()), date_s,
             new java.text.FieldPosition(0));
-    out_dir = date_s.toString();
+    String dirName = date_s.toString();
 
     // create a directory using the current date and time
-    dir = new java.io.File(out_dir);
+    dir = new java.io.File(dirName);
     if (!dir.exists()) dir.mkdir();
     
-    // write parameters
+    // initialize the output for run-time messages
     try {
-      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(out_dir 
+      log = new java.io.PrintWriter(new java.io.File(dirName
+              + java.io.File.separator + en + "-output.txt"));
+    } catch (java.io.FileNotFoundException fnfe) {
+      throw new RuntimeException("Couldn't open " + dirName
+              + java.io.File.separator + en + ".txt", fnfe);
+    }
+    return dirName;
+  }
+  
+  private static void writeParameters(String dirName, Parameters p) {
+    try {
+      java.io.FileWriter fw = new java.io.FileWriter(new java.io.File(dirName 
               + java.io.File.separator 
               + "parameters-" + tut.Main.MAJOR_VERSION + "-" + System.currentTimeMillis()+".json"));
       p.version = tut.Main.MAJOR_VERSION+" Subversion"+tut.Main.MINOR_VERSION;
@@ -118,17 +135,8 @@ public class Batch {
     } catch (java.io.IOException ioe) {
       System.exit(-1);
     }
-
-    // initialize the output for run-time measurements
-    try {
-      log = new java.io.PrintWriter(new java.io.File(out_dir
-              + java.io.File.separator + expName + "-output.txt"));
-    } catch (java.io.FileNotFoundException fnfe) {
-      throw new RuntimeException("Couldn't open " + out_dir
-              + java.io.File.separator + expName + ".txt", fnfe);
-    }
-
   }
+  
   public double getMaxCycle() {
     return Math.max(modelT.timeLimit*modelT.cyclePerTime, modelL.timeLimit*modelL.cyclePerTime);
   }
