@@ -1,3 +1,7 @@
+2015-06-15  gepr  <gepr@tempusdictum.com>
+
+	* model/LocaleDyn.java (eliminateMarker()): Stop destroying Marker when Pain >= 10.
+
 2015-06-13  gepr  <gepr@tempusdictum.com>
 
 	* model/LooseDyn.java (instantiate()): Move the setting of [reliefBottom, reliefTop] from setMorbidity() to setController().

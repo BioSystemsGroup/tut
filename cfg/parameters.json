@@ -27,9 +27,9 @@
     "cent2sink": 0.01
    },
   "looseDyn": {
-      "morbidity": 1.0,
-      "morb2mark": 0.001,
-      "mark2pain": 0.001,
-      "drug2pain": 1.0
+      "morbidity": 0.1,
+      "morb2mark": 0.1,
+      "mark2pain": 0.1,
+      "drug2pain": 0.1
    }
 }
