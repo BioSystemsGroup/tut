@@ -1,3 +1,7 @@
+2015-06-15  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json: Set {morbidity, morb2mark, mark2pain, drug2pain} to 0.1, which produces output on par with the Pain clamp at 10.
+
 2015-06-13  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json (morb2mark, mark2pain, drug2pain): New parameters for morbidity.

@@ -55,7 +55,7 @@ public class LocaleDyn extends Locale {
   
   private void eliminateMarker() {
     sim.util.MutableDouble marker = particles.get("Marker");
-    if (marker.val > 0.0) {
+    if (pain < painMax && marker.val > 0.0) {
       double inc = body.params.looseDyn.get("mark2pain").doubleValue()*marker.val;
       pain += inc;
       if (pain > painMax) pain = painMax;
