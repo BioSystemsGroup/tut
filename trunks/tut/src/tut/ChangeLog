@@ -1,3 +1,11 @@
+2015-06-17  gepr  <gepr@tempusdictum.com>
+
+	* view/ObsSymptom.java: Replaced ObsPain.
+
+	* view/ObsMP.java: Replaced ObsMarker.
+
+	* Batch, Parameters, LocalDyn, LooseDyn (marker, pain): marker -> mp, Marker -> MP, mark -> mp.  pain -> symptom.
+
 2015-06-16  gepr  <gepr@tempusdictum.com>
 
 	* model/LooseDyn.java (init()): Now have to override init() in order to add "Marker" rates to the input maps.

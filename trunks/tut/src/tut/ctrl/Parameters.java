@@ -41,21 +41,13 @@ public class Parameters {
     loose.put("dose",Double.MIN_NORMAL);
     loose.put("vc",Double.MIN_NORMAL);
     loose.put("vp",Double.MIN_NORMAL);
-    //loose.put("src2cent",Double.MIN_NORMAL);
-    //loose.put("cent2peri",Double.MIN_NORMAL);
-    //loose.put("peri2cent",Double.MIN_NORMAL);
-    //loose.put("cent2sink",Double.MIN_NORMAL);
     lRates.put("Drug", specNet());
 
     looseDyn.put("morbidity",Double.MIN_NORMAL);
-    looseDyn.put("morb2mark", Double.MIN_NORMAL);
-    looseDyn.put("mark2pain", Double.MIN_NORMAL);
-    looseDyn.put("drug2pain", Double.MIN_NORMAL);
-    //looseDyn.put("src2centM",Double.MIN_NORMAL);
-    //looseDyn.put("cent2periM",Double.MIN_NORMAL);
-    //looseDyn.put("peri2centM",Double.MIN_NORMAL);
-    //looseDyn.put("cent2sinkM",Double.MIN_NORMAL);
-    ldRates.put("Marker", specNet());
+    looseDyn.put("morb2mp", Double.MIN_NORMAL);
+    looseDyn.put("mp2symptom", Double.MIN_NORMAL);
+    looseDyn.put("drug2symptom", Double.MIN_NORMAL);
+    ldRates.put("MP", specNet());
   }
   
   public static class Edge {

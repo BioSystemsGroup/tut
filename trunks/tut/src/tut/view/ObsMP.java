@@ -9,8 +9,8 @@
  */
 package tut.view;
 
-public class ObsMarker extends Obs {
-  public ObsMarker(String en, tut.ctrl.Parameters p) {
+public class ObsMP extends Obs {
+  public ObsMP(String en, tut.ctrl.Parameters p) {
     super(en,p);
   }
   
@@ -18,7 +18,7 @@ public class ObsMarker extends Obs {
   public java.util.ArrayList<Double> measure() {
     java.util.ArrayList<Double> retVal = new java.util.ArrayList<>();
     subject.comps.stream().forEach((ld) -> {
-      retVal.add(ld.particles.get("Marker").val);
+      retVal.add(ld.particles.get("MP").val);
     });
     return retVal;
   }

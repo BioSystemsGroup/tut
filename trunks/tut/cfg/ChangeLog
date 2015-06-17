@@ -1,3 +1,7 @@
+2015-06-17  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json: Change instances of mark, Marker, and marker to mp, MP, and mp.  Change pain to symptom.
+
 2015-06-16  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json: Restructured to place rate constants in a Map of Maps:  Map(Particle => Map (Edge(from,to) => rate)).  For example: ldRates = {"Drug" => { {"source", "central} => 0.3}, {"Marker" => { {"periph", "central"} => 0.03} } }.  Also added separate rate constants for LooseDyn.
