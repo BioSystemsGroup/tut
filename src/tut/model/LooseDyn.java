@@ -40,18 +40,18 @@ public class LooseDyn extends Loose {
   public void init(sim.engine.SimState state, double tl, double cpt) {
     super.init(state, tl, cpt);
     
-    // add rates for the new particle, Marker
+    // add rates for the new particle, morbidity product (mp)
     LocaleDyn source = (LocaleDyn)comps.get(0);
     LocaleDyn central = (LocaleDyn)comps.get(1);
     LocaleDyn periph = (LocaleDyn)comps.get(2);
     LocaleDyn sink = (LocaleDyn)comps.get(3);
-    central.ins.get(source).put("Marker", params.ldRates.get("Marker")
+    central.ins.get(source).put("MP", params.ldRates.get("MP")
             .get(new Parameters.Edge("source","central")));
-    central.ins.get(periph).put("Marker", params.ldRates.get("Marker")
+    central.ins.get(periph).put("MP", params.ldRates.get("MP")
             .get(new Parameters.Edge("periph","central")));
-    periph.ins.get(central).put("Marker", params.ldRates.get("Marker")
+    periph.ins.get(central).put("MP", params.ldRates.get("MP")
             .get(new Parameters.Edge("central","periph")));
-    sink.ins.get(central).put("Marker", params.ldRates.get("Marker")
+    sink.ins.get(central).put("MP", params.ldRates.get("MP")
             .get(new Parameters.Edge("central","sink")));
   }    
 }

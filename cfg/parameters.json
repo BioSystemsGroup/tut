@@ -38,13 +38,13 @@
     }]
   },
   "looseDyn": {
-    "drug2pain": 0.1,
+    "drug2symptom": 0.1,
     "morbidity": 0.1,
-    "mark2pain": 0.1,
-    "morb2mark": 0.1
+    "mp2symptom": 0.1,
+    "morb2mp": 0.1
   },
   "ldRates": {
-    "Marker": [{
+    "MP": [{
       "key": { "from": "central", "to": "sink" },
       "value": 0.01
     }, {
