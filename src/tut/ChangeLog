@@ -1,5 +1,9 @@
 2015-06-17  gepr  <gepr@tempusdictum.com>
 
+	* model/LooseDyn.java (instantiate()): Move Controller from Sink to Central.
+
+	* ctrl/Batch.java (mLDObS): Renamed from mLDObP (pain -> symptom).
+
 	* view/ObsSymptom.java: Replaced ObsPain.
 
 	* view/ObsMP.java: Replaced ObsMarker.

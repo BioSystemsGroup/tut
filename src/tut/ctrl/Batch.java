@@ -79,9 +79,9 @@ public class Batch {
     mLDObsC.init(dir,modelLD);
     state.schedule.scheduleOnce(mLDObsC, tut.view.Obs.VIEW_ORDER);
     // attach the symptom observer
-    tut.view.ObsSymptom mLDObsP = new tut.view.ObsSymptom(expName, params);
-    mLDObsP.init(dir,modelLD);
-    state.schedule.scheduleOnce(mLDObsP, tut.view.Obs.VIEW_ORDER);
+    tut.view.ObsSymptom mLDObsS = new tut.view.ObsSymptom(expName, params);
+    mLDObsS.init(dir,modelLD);
+    state.schedule.scheduleOnce(mLDObsS, tut.view.Obs.VIEW_ORDER);
     // the morbidity product (mp) observer
     tut.view.ObsMP mLDObsM = new tut.view.ObsMP(expName, params);
     mLDObsM.init(dir,modelLD);
