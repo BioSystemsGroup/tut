@@ -9,6 +9,8 @@
  */
 package tut.model;
 
+import tut.ctrl.Parameters;
+
 public class LooseDyn extends Loose {
   private final double RELIEF_BOTTOM = 0.30, RELIEF_TOP=0.70;
   
@@ -35,4 +37,21 @@ public class LooseDyn extends Loose {
     comps = tmpComps;
   }
   
+  public void init(sim.engine.SimState state, double tl, double cpt) {
+    super.init(state, tl, cpt);
+    
+    // add rates for the new particle, Marker
+    LocaleDyn source = (LocaleDyn)comps.get(0);
+    LocaleDyn central = (LocaleDyn)comps.get(1);
+    LocaleDyn periph = (LocaleDyn)comps.get(2);
+    LocaleDyn sink = (LocaleDyn)comps.get(3);
+    central.ins.get(source).put("Marker", params.ldRates.get("Marker")
+            .get(new Parameters.Edge("source","central")));
+    central.ins.get(periph).put("Marker", params.ldRates.get("Marker")
+            .get(new Parameters.Edge("periph","central")));
+    periph.ins.get(central).put("Marker", params.ldRates.get("Marker")
+            .get(new Parameters.Edge("central","periph")));
+    sink.ins.get(central).put("Marker", params.ldRates.get("Marker")
+            .get(new Parameters.Edge("central","sink")));
+  }    
 }

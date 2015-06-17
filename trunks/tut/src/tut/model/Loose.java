@@ -9,7 +9,9 @@
  */
 package tut.model;
 
+import java.util.Map;
 import java.util.HashMap;
+import tut.ctrl.Parameters;
 
 public class Loose extends Model {
   double dose = Double.NaN, vc = Double.NaN;
@@ -56,16 +58,33 @@ public class Loose extends Model {
     Locale periph = (Locale)comps.get(2);
     Locale sink = (Locale)comps.get(3);
     
-    HashMap<Locale,Double> tmp = new HashMap<>(2);
-    tmp.put(source,params.loose.get("src2cent").doubleValue());
-    tmp.put(periph,params.loose.get("peri2cent").doubleValue());
-    central.setIns(tmp);
-    tmp = new HashMap<>(1);
-    tmp.put(central,params.loose.get("cent2peri").doubleValue());
-    periph.setIns(tmp);
-    tmp = new HashMap<>(1);
-    tmp.put(central,params.loose.get("cent2sink").doubleValue());
-    sink.setIns(tmp);
+    // build the inputs to central
+    HashMap<Locale,Map<String,Double>> inputs = new HashMap<>(2);
+    HashMap<String,Double> rates = new HashMap<>(1);
+    rates.put("Drug",params.lRates.get("Drug")
+            .get(new Parameters.Edge("source","central")));
+    inputs.put(source,rates);
+    rates = new HashMap<>(1);
+    rates.put("Drug",params.lRates.get("Drug")
+            .get(new Parameters.Edge("periph","central")));
+    inputs.put(periph,rates);
+    central.setIns(inputs);
+    
+    // build the inputs to periph
+    inputs = new HashMap<>(1);
+    rates = new HashMap<>(1);
+    rates.put("Drug",params.lRates.get("Drug")
+            .get(new Parameters.Edge("central","periph")));
+    inputs.put(central,rates);
+    periph.setIns(inputs);
+    
+    // inputs to sink
+    inputs = new HashMap<>(1);
+    rates = new HashMap<>(1);
+    rates.put("Drug",params.lRates.get("Drug")
+            .get(new Parameters.Edge("central","sink")));
+    inputs.put(central,rates);
+    sink.setIns(inputs);
   }
   
   @Override

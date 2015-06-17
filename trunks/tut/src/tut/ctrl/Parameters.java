@@ -11,76 +11,111 @@ package tut.ctrl;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Parameters {
   String version = "";
   public Map<String,Number> batch = new HashMap<>(2);
   public Map<String,Number> tight = new HashMap<>(6);
   public Map<String,Number> loose = new HashMap<>(11);
+  public Map<String,Map<Edge,Double>> lRates = new HashMap<>();
   public Map<String,Number> looseDyn = new HashMap<>(1);
+  public Map<String,Map<Edge,Double>> ldRates = new HashMap<>();
   
   public Parameters() {
     batch.put("seed",-Long.MAX_VALUE);
     
     tight.put("timeLimit",-Long.MAX_VALUE);
-    tight.put("cyclePerTime",Double.NaN);
-    tight.put("doseTime", Double.NaN);
-    tight.put("dose",Double.NaN);
-    tight.put("vc",Double.NaN);
-    tight.put("k_a",Double.NaN);
-    tight.put("k_10",Double.NaN);
-    tight.put("k_12",Double.NaN);
-    tight.put("k_21",Double.NaN);
+    tight.put("cyclePerTime",Double.MIN_NORMAL);
+    tight.put("doseTime", Double.MIN_NORMAL);
+    tight.put("dose",Double.MIN_NORMAL);
+    tight.put("vc",Double.MIN_NORMAL);
+    tight.put("k_a",Double.MIN_NORMAL);
+    tight.put("k_10",Double.MIN_NORMAL);
+    tight.put("k_12",Double.MIN_NORMAL);
+    tight.put("k_21",Double.MIN_NORMAL);
     
     loose.put("timeLimit",-Long.MAX_VALUE);
-    loose.put("cyclePerTime",Double.NaN);
-    loose.put("doseTime", Double.NaN);
-    loose.put("dose",Double.NaN);
-    loose.put("vc",Double.NaN);
-    loose.put("vp",Double.NaN);
-    loose.put("src2cent",Double.NaN);
-    loose.put("cent2peri",Double.NaN);
-    loose.put("peri2cent",Double.NaN);
-    loose.put("cent2sink",Double.NaN);
+    loose.put("cyclePerTime",Double.MIN_NORMAL);
+    loose.put("doseTime", Double.MIN_NORMAL);
+    loose.put("dose",Double.MIN_NORMAL);
+    loose.put("vc",Double.MIN_NORMAL);
+    loose.put("vp",Double.MIN_NORMAL);
+    //loose.put("src2cent",Double.MIN_NORMAL);
+    //loose.put("cent2peri",Double.MIN_NORMAL);
+    //loose.put("peri2cent",Double.MIN_NORMAL);
+    //loose.put("cent2sink",Double.MIN_NORMAL);
+    lRates.put("Drug", specNet());
+
+    looseDyn.put("morbidity",Double.MIN_NORMAL);
+    looseDyn.put("morb2mark", Double.MIN_NORMAL);
+    looseDyn.put("mark2pain", Double.MIN_NORMAL);
+    looseDyn.put("drug2pain", Double.MIN_NORMAL);
+    //looseDyn.put("src2centM",Double.MIN_NORMAL);
+    //looseDyn.put("cent2periM",Double.MIN_NORMAL);
+    //looseDyn.put("peri2centM",Double.MIN_NORMAL);
+    //looseDyn.put("cent2sinkM",Double.MIN_NORMAL);
+    ldRates.put("Marker", specNet());
+  }
+  
+  public static class Edge {
+    String from = "s";
+    String to = "t";
+    public Edge() {}
+    public Edge(String s, String t) {
+      from = s; to = t;
+    }
+
+    @Override
+    public int hashCode() {
+      return from.hashCode()+to.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+      if (getClass() != obj.getClass()) {
+        return false;
+      }
+      final Edge other = (Edge) obj;
+      if (!Objects.equals(this.from, other.from)) {
+        return false;
+      }
+      if (!Objects.equals(this.to, other.to)) {
+        return false;
+      }
+      return true;
+    }
     
-    looseDyn.put("morbidity",Double.NaN);
-    looseDyn.put("morb2mark", Double.NaN);
-    looseDyn.put("mark2pain", Double.NaN);
-    looseDyn.put("drug2pain", Double.NaN);
   }
-
-  private boolean test(String name, Map<String,Number> ref, Map<String,Number> map) {
-    java.util.Optional<Map.Entry<String, Number>> broken = ref.entrySet().stream().filter(me -> map.get(me.getKey()) == null).findAny();
-    if (broken.isPresent())
-      tut.ctrl.Batch.log(name+"."+broken.get().getKey()+" not found in parameter file.");
-    return broken.isPresent();
-  }
-  private boolean test() {
-    boolean retVal = true;
-    Parameters testP = new Parameters();
-    if (test("batch", testP.batch, batch)) retVal = false;
-    if (test("tight", testP.tight, tight)) retVal = false;
-    if (test("loose", testP.loose, loose)) retVal = false;
-    if (test("looseDyn", testP.looseDyn, looseDyn)) retVal = false;
-    return retVal;
-  }
-
-  public static Parameters readOneOfYou(String json) {
-    Parameters p = null;
-    com.google.gson.Gson gson = new com.google.gson.Gson();
-    if (json != null) p = gson.fromJson (json, Parameters.class); 
-    if (p != null) p.test();
-    else throw new RuntimeException("Problem loading parameters. Gson returned null.");
-    return p;
-  }
-  public static Parameters readOneOfYou(java.io.InputStream is) {
-    String json = new java.util.Scanner(is).useDelimiter("\\A").next();
-    Parameters p = readOneOfYou(json);
-    return p;
+  
+  private Map<Edge,Double> specNet() {
+    Map<Edge,Double> m = new HashMap<>(4);
+    m.put(new Edge("source","central"), Double.MIN_NORMAL);
+    m.put(new Edge("central","periph"), Double.MIN_NORMAL);
+    m.put(new Edge("periph","central") , Double.MIN_NORMAL);
+    m.put(new Edge("central","sink"), Double.MIN_NORMAL);
+    return m;
   }
   
   public String describe() {
-    com.google.gson.Gson gson = new com.google.gson.Gson();
-    return gson.toJson(this);
+    com.owlike.genson.Genson g = new com.owlike.genson.Genson();
+    String json = g.serialize(this);
+    return json;
   }
+  public static Parameters readOneOfYou(String json) {
+    com.owlike.genson.Genson g = new com.owlike.genson.Genson();
+    Parameters p = g.deserialize(json, Parameters.class);
+    return p;
+  }
+  
+  public static void main(String[] args) throws java.io.FileNotFoundException {
+    java.io.File f = new java.io.File(args[0]);
+    String json = new java.util.Scanner(f).useDelimiter("\\A").next();
+    Parameters p = readOneOfYou(json);
+    System.out.println(p.describe());
+  }
+  
 }

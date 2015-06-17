@@ -1,0 +1,4 @@
+2015-06-16  gepr  <gepr@tempusdictum.com>
+
+	* genson-1.3.jar: Replaced Gson with Genson for default handling of nested objects.
+
