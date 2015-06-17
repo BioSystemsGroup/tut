@@ -1,35 +1,61 @@
 {
-  "version": "TUT-v0.4 Subversion$Revision$",
+  "version": "",
   "batch": {
     "seed": 1234567890
   },
   "tight": {
-    "timeLimit": 480.0,
+    "timeLimit": 480,
+    "k_10": 0.1,
+    "k_21": 0.3,
+    "dose": 100.0,
     "cyclePerTime": 4.0,
     "doseTime": 240.0,
-    "dose": 100.0,
-    "vc": 10.0,
-    "k_a": 3.0,
     "k_12": 1.0,
-    "k_21": 0.3,
-    "k_10": 0.1
-   },
+    "k_a": 3.0,
+    "vc": 10.0
+  },
   "loose": {
-    "timeLimit": 480.0,
+    "timeLimit": 480,
+    "dose": 10.0,
     "cyclePerTime": 10.0,
     "doseTime": 240.0,
-    "dose": 10.0,
-    "vc": 1.0,
     "vp": 3.5,
-    "src2cent": 0.3,
-    "cent2peri": 0.1,
-    "peri2cent": 0.03,
-    "cent2sink": 0.01
-   },
+    "vc": 1.0
+  },
+  "lRates": {
+    "Drug": [{
+      "key": { "from": "source", "to": "central" },
+      "value": 0.3
+    }, {
+      "key": { "from": "central", "to": "periph" },
+      "value": 0.1
+    }, {
+      "key": { "from": "central", "to": "sink" },
+      "value": 0.01
+    }, {
+      "key": { "from": "periph", "to": "central" },
+      "value": 0.03
+    }]
+  },
   "looseDyn": {
-      "morbidity": 0.1,
-      "morb2mark": 0.1,
-      "mark2pain": 0.1,
-      "drug2pain": 0.1
-   }
+    "drug2pain": 0.1,
+    "morbidity": 0.1,
+    "mark2pain": 0.1,
+    "morb2mark": 0.1
+  },
+  "ldRates": {
+    "Marker": [{
+      "key": { "from": "central", "to": "sink" },
+      "value": 0.01
+    }, {
+      "key": { "from": "central", "to": "periph" },
+      "value": 0.1
+    }, {
+      "key": { "from": "source", "to": "central" },
+      "value": 0.3
+    }, {
+      "key": { "from": "periph", "to": "central" },
+      "value": 0.03
+    }]
+  }
 }

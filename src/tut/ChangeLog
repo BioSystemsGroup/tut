@@ -1,3 +1,14 @@
+2015-06-16  gepr  <gepr@tempusdictum.com>
+
+	* model/LooseDyn.java (init()): Now have to override init() in order to add "Marker" rates to the input maps.
+
+	* model/Loose.java (init()): More complex ins structure to incorporate different rates for different particles.
+
+	* model/Locale.java (ins): Changed to Map<Comp,Map<String,Double>> so that inputs can reference several particles, each with their own rate constants, but still over the same network.
+	(step()): Get a set of rate constants for each particle type.
+
+	* ctrl/Parameters.java (lRates, ldRates, Edge): Split out rate constants as a sub object (Map of Maps).  Added separate rate constants for LooseDyn so that Loose only has constants for "Drug", but LooseDyn has constants for both "Drug" and "Marker".  Add Edge inner class to index the rate constants according to "from" and "to".  Have not yet replaced the validity tests for the new structure.  Also replaced Gson with Genson because Gson did not correctly [de]serialize nested objects by default.
+
 2015-06-15  gepr  <gepr@tempusdictum.com>
 
 	* model/LocaleDyn.java (eliminateMarker()): Stop destroying Marker when Pain >= 10.
