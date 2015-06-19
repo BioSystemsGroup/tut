@@ -1,3 +1,18 @@
+2015-06-18  gepr  <gepr@tempusdictum.com>
+
+	* view/ObsMP.java (measure()): Call the new LooseDyn.countMP().
+
+	* model/LooseDyn.java (instantiate()): Add an estimate of maximum MP that will be generated for the whole simulation and pass that to the Controller for use in the Sigmoid (maps [0,maxMP] -> [0,maxSymptom].
+	(countMP(), sumMP()): Use to estimate the total MP present in the entire model, which is used by the Sigmoid for incrementing Symptom from MP.
+
+	* model/Loose.java (step()): Output time to the log file.
+
+	* model/LocaleDyn.java (sigtop, setController()): Add new IVar to calculate the upper end of the MP domain for use in the Sigmoid: symptom += Sigmoid(0,10,0,sigtop,MP).
+	(handleMorbidity()): Increase Morbidity as a function of time: Morbidity += Morbidity*morbFactor.
+	(createSymptom()): Use the Sigmoid to calculate the symptom increment and the MP decrement.
+
+	* ctrl/Parameters.java (morbFactor): Amount to increase morbidity each cycle.
+
 2015-06-17  gepr  <gepr@tempusdictum.com>
 
 	* model/LooseDyn.java (instantiate()): Move Controller from Sink to Central.

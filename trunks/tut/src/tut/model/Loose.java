@@ -102,5 +102,6 @@ public class Loose extends Model {
   @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
+    tut.ctrl.Batch.log("time = "+state.schedule.getTime()/cyclePerTime);
   }
 }
