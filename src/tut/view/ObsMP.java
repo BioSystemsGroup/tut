@@ -16,10 +16,7 @@ public class ObsMP extends Obs {
   
   @Override
   public java.util.ArrayList<Double> measure() {
-    java.util.ArrayList<Double> retVal = new java.util.ArrayList<>();
-    subject.comps.stream().forEach((ld) -> {
-      retVal.add(ld.particles.get("MP").val);
-    });
+    java.util.ArrayList<Double> retVal = ((tut.model.LooseDyn)subject).countMP();
     return retVal;
   }
 }

@@ -16,7 +16,8 @@ public class LocaleDyn extends Locale {
   public final double symptomMax = 10.0;
   double reliefBottom = Double.NaN, reliefTop = Double.NaN;
   boolean controller = false;
-  public void setController(boolean c, double rb, double rt) { 
+  double sigtop = Double.NaN;
+  public void setController(boolean c, double rb, double rt, double st) { 
     controller = c; 
     symptom = 0.0;
     if (c && rt <= 0.0) throw new RuntimeException("reliefTop <= 0.0, set morbidity = 0 disable it");
@@ -24,6 +25,7 @@ public class LocaleDyn extends Locale {
       reliefBottom = rb;
       reliefTop = rt;
     } else throw new RuntimeException("reliefTop <= reliefBottom");
+    sigtop = st;
   }
   
   public LocaleDyn(LooseDyn b, int i, double start, double v) {
@@ -40,7 +42,6 @@ public class LocaleDyn extends Locale {
   @Override
   public void step(sim.engine.SimState state) {
     super.step(state);
-    
     if (morbidity > 0.0) handleMorbidity();
     if (controller) {
       createSymptom();
@@ -51,15 +52,20 @@ public class LocaleDyn extends Locale {
   private void handleMorbidity() {
     particles.get("MP").val += morbidity
             * body.params.looseDyn.get("morb2mp").doubleValue();
+    morbidity += morbidity
+            * body.params.looseDyn.get("morbFactor").doubleValue();
   }
   
   private void createSymptom() {
     sim.util.MutableDouble mp = particles.get("MP");
     if (symptom < symptomMax && mp.val > 0.0) {
-      double inc = body.params.looseDyn.get("mp2symptom").doubleValue()*mp.val;
-      symptom += inc;
+      double mp2symptom = body.params.looseDyn.get("mp2symptom").doubleValue();
+      double mpSum = body.sumMP();
+      double mp_inc = isl.util.SigmoidGradient.eval(0.0, 10.0, 0.0, sigtop, body.sumMP());
+      tut.ctrl.Batch.log("sigtop = "+sigtop+", symptom: "+symptom+" += "+mp_inc+" :SG("+mpSum+")");
+      symptom += mp_inc*mp2symptom;
       if (symptom > symptomMax) symptom = symptomMax;
-      mp.val -= inc;
+      mp.val -= mp_inc;
       if (mp.val < 0.0) mp.val = 0.0;
     }
   }

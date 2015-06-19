@@ -23,9 +23,12 @@ public class LooseDyn extends Loose {
     LocaleDyn source = new LocaleDyn(this, 0, 0.0, 1.0);
     vc = params.loose.get("vc").doubleValue();
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
-    central.setController(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc);
-    LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
     double morbidity = params.looseDyn.get("morbidity").doubleValue();
+    double sigtop = morbidity*params.looseDyn.get("morb2mp").doubleValue()*timeLimit*cyclePerTime;
+    central.setController(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, sigtop);
+    LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
+    tut.ctrl.Batch.log("sigtop = "+sigtop);
+
     periph.setMorbidity(morbidity);
     LocaleDyn sink = new LocaleDyn(this, 3, 0.0, 1.0);
     // store them in the ArrayList
@@ -53,5 +56,17 @@ public class LooseDyn extends Loose {
             .get(new Parameters.Edge("central","periph")));
     sink.ins.get(central).put("MP", params.ldRates.get("MP")
             .get(new Parameters.Edge("central","sink")));
-  }    
+  }
+  
+  public java.util.ArrayList<Double> countMP() {
+    java.util.ArrayList<Double> retVal = new java.util.ArrayList<>(comps.size());
+    comps.stream().forEach((ld) -> {
+      retVal.add(ld.particles.get("MP").val);
+    });
+    return retVal;
+  }
+  public double sumMP() {
+    Double sum = countMP().stream().reduce(0.0, (a,b) -> a+b);
+    return sum;
+  }
 }

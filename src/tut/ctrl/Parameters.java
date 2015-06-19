@@ -43,7 +43,8 @@ public class Parameters {
     loose.put("vp",Double.MIN_NORMAL);
     lRates.put("Drug", specNet());
 
-    looseDyn.put("morbidity",Double.MIN_NORMAL);
+    looseDyn.put("morbidity", Double.MIN_NORMAL);
+    looseDyn.put("morbFactor", Double.MIN_NORMAL);
     looseDyn.put("morb2mp", Double.MIN_NORMAL);
     looseDyn.put("mp2symptom", Double.MIN_NORMAL);
     looseDyn.put("drug2symptom", Double.MIN_NORMAL);
