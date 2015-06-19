@@ -25,7 +25,7 @@ public class LooseDyn extends Loose {
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
     double morbidity = params.looseDyn.get("morbidity").doubleValue();
     double sigtop = morbidity*params.looseDyn.get("morb2mp").doubleValue()*timeLimit*cyclePerTime;
-    central.setController(true, RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, sigtop);
+    central.setController(RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, sigtop);
     LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
     tut.ctrl.Batch.log("sigtop = "+sigtop);
 
