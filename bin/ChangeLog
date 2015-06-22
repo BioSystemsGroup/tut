@@ -1,3 +1,7 @@
+2015-06-22  gepr  <gepr@tempusdictum.com>
+
+	* paramtest.sh: Simple script to execute Parameters.main().
+
 2015-06-11  gepr  <gepr@tempusdictum.com>
 
 	* cmp-by-model.r: Update to include the LooseDyn model plots.

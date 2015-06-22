@@ -1,3 +1,7 @@
+2015-06-22  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json: Parameters set so that we can see the dynamics after Symptom maxes out with the ldRates("MP") = lRates("Drug").
+
 2015-06-17  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json: Change instances of mark, Marker, and marker to mp, MP, and mp.  Change pain to symptom.

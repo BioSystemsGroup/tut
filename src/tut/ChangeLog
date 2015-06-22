@@ -1,3 +1,7 @@
+2015-06-22  gepr  <gepr@tempusdictum.com>
+
+	* ctrl/Parameters.java (test(), testNet(), readOneOfYou()): Add back in the tests for the existence of the base Maps.  New test for the existence of the lRates and ldRates Maps of Maps.  Still just testing for existence and logging if they fail.
+
 2015-06-19  gepr  <gepr@tempusdictum.com>
 
 	* model/LocaleDyn.java (morbidity,controller): Promote from variables to 2nd class agents, slaves of their LocaleDyn Compartments.  They are inner classes only instantiated if the model calls setMorbidity() or setController().  They inherit their context from their LocaleDyn and are executed by LocaleDyn, even though they implement Steppable.
