@@ -1,5 +1,7 @@
 2015-06-22  gepr  <gepr@tempusdictum.com>
 
+	* Main.java (MAJOR_VERSION): Bump.
+
 	* ctrl/Parameters.java (test(), testNet(), readOneOfYou()): Add back in the tests for the existence of the base Maps.  New test for the existence of the lRates and ldRates Maps of Maps.  Still just testing for existence and logging if they fail.
 
 2015-06-19  gepr  <gepr@tempusdictum.com>

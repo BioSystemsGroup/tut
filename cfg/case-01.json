@@ -4,9 +4,10 @@
     "seed": 1234567890
   },
   "tight": {
-    "timeLimit": 25.0,
+    "timeLimit": 240,
     "cyclePerTime": 4.0,
     "dose": 100.0,
+    "doseTime": 216.0,
     "vc": 10.0,
     "k_a": 3.0,
     "k_12": 1.0,
@@ -14,14 +15,48 @@
     "k_10": 0.1
    },
   "loose": {
-    "timeLimit": 25.0,
+    "timeLimit": 240,
     "cyclePerTime": 10.0,
     "dose": 10.0,
+    "doseTime": 216.0,
     "vc": 1.0,
-    "vp": 3.5,
-    "src2cent": 0.3,
-    "cent2peri": 0.1,
-    "peri2cent": 0.03,
-    "cent2sink": 0.01
+    "vp": 3.5
+  },
+  "lRates": {
+    "Drug": [{
+      "key": { "from": "source", "to": "central" },
+      "value": 0.3
+    }, {
+      "key": { "from": "central", "to": "periph" },
+      "value": 0.1
+    }, {
+      "key": { "from": "central", "to": "sink" },
+      "value": 0.01
+    }, {
+      "key": { "from": "periph", "to": "central" },
+      "value": 0.03
+    }]
+  },
+  "looseDyn": {
+    "drug2symptom": 0.1,
+    "morbidity": 0.1,
+    "morbFactor": 0.000001,
+    "mp2symptom": 0.1,
+    "morb2mp": 0.1
+  },
+  "ldRates": {
+    "MP": [{
+      "key": { "from": "source", "to": "central" },
+      "value": 0.3
+    }, {
+      "key": { "from": "central", "to": "periph" },
+      "value": 0.1
+    }, {
+      "key": { "from": "central", "to": "sink" },
+      "value": 0.01
+    }, {
+      "key": { "from": "periph", "to": "central" },
+      "value": 0.03
+    }]
   }
 }
