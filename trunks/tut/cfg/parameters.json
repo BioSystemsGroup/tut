@@ -4,21 +4,21 @@
     "seed": 1234567890
   },
   "tight": {
-    "timeLimit": 480,
+    "timeLimit": 240,
     "k_10": 0.1,
     "k_21": 0.3,
     "dose": 100.0,
     "cyclePerTime": 4.0,
-    "doseTime": 240.0,
+    "doseTime": 216.0,
     "k_12": 1.0,
     "k_a": 3.0,
     "vc": 10.0
   },
   "loose": {
-    "timeLimit": 480,
+    "timeLimit": 240,
     "dose": 10.0,
     "cyclePerTime": 10.0,
-    "doseTime": 240.0,
+    "doseTime": 216.0,
     "vp": 3.5,
     "vc": 1.0
   },
