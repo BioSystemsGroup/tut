@@ -1,3 +1,7 @@
+2015-06-29  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json(mp2mpo, detectorSites, P_occupySite, P_releaseMPO):  New parameters to specify the MP->MPO->Symptom mechanism.
+
 2015-06-22  gepr  <gepr@tempusdictum.com>
 
 	* case-*.json: Reconfigure to match parameters.json.

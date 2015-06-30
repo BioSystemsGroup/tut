@@ -1,3 +1,9 @@
+2015-06-29  gepr  <gepr@tempusdictum.com>
+
+	* model/SlaveAgent.java: Parent class of Controller and Detector.  Executes its sub-actions from a randomized ArrayList<Steppable>.
+
+	* model/LocaleDyn.java: Change Controller to extend the new SlaveAgent.  Add Detector SlaveAgent to LocaleDyn (sibling to Controller).  Add switch to useMPO, if true, otherwise revert back to mechanism where Symptom = sigmoid(MP).  Change Controller methods to Steppables executed in pRNG order.  Detector uses 2 lists: mpolist (for the MPOs created from MP) and sites, which is a fixed size ArrayList.  When a site is empty, it contains "null", which means after initialization, we don't use add() or remove(), only set().  A different data structure would probably be better, frankly.
+
 2015-06-22  gepr  <gepr@tempusdictum.com>
 
 	* Main.java (MAJOR_VERSION): Bump.

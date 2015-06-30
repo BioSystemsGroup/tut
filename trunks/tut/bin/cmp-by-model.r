@@ -1,15 +1,15 @@
-#! /usr/bin/Rscript
-###!/bin/bash setR
+#!/bin/bash setR
+###! /usr/bin/Rscript
 
 ##
 # Read multiple *.csv files and plot all columns vs the 1st.  Tight on
 # the left, Loose on the right.
 #
-# Time-stamp: <2015-06-10 15:29:34 gepr>
+# Time-stamp: <2015-06-29 15:49:13 gepr>
 #
 #dev.off()
 
-argv <- commandArgs(TRUE)
+#argv <- commandArgs(TRUE)
 
 if (length(argv) < 2) {
     print("Usage: cmp-by-model.r <exp directories>")
@@ -85,6 +85,7 @@ plotPlot <- function(dat, cols, name) {
   }
   plot(dat[[i]][,1],dat[[i]][,cols[1]],type="l",ylim=c(min.y,max.y),
        main=paste(argv[i],name),
+       log="y",
        xlab="Time (hr)", ylab=ylab)
   lines(dat[[i]][,1],dat[[i]][,cols[2]],lty=2)
   legend("topright", legend=c("Central","Peripheral"),lty=1:2,cex=1)
@@ -105,4 +106,4 @@ for (i in 1:length(argv)) {
   plotPlot(looseDyn,c(3:4),"LooseDyn")
 
 }
-#q()
+q()
