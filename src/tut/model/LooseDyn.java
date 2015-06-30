@@ -13,7 +13,7 @@ import tut.ctrl.Parameters;
 
 public class LooseDyn extends Loose {
   private final double RELIEF_BOTTOM = 0.30, RELIEF_TOP=0.70;
-  
+
   public LooseDyn(tut.ctrl.Parameters p) {
     super(p);
   }

@@ -42,7 +42,11 @@
     "morbidity": 0.1,
     "morbFactor": 0.000001,
     "mp2symptom": 0.1,
-    "morb2mp": 0.1
+    "morb2mp": 0.1,
+    "mp2mpo": 20.0,
+    "detectorSites": 20,
+    "P_occupySite": 0.5,
+    "P_releaseMPO": 0.5
   },
   "ldRates": {
     "MP": [{
