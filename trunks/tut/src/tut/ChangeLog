@@ -1,3 +1,7 @@
+2015-07-01  gepr  <gepr@tempusdictum.com>
+
+	* model/LocaleDyn.java (actions, symptomFromDetectedMPO()): Only schedule relieveSymptom() when useMPO == false.  When useMPO == true, adjustSymptom() does the work of both incrementing and decrementing Symptom according to the rule: Symptom = (1-(drugPotency/|Sites|))*|occupiedSites|.
+
 2015-06-29  gepr  <gepr@tempusdictum.com>
 
 	* model/SlaveAgent.java: Parent class of Controller and Detector.  Executes its sub-actions from a randomized ArrayList<Steppable>.

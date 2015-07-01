@@ -9,7 +9,7 @@
     "k_21": 0.3,
     "dose": 100.0,
     "cyclePerTime": 4.0,
-    "doseTime": 216.0,
+    "doseTime": 150.0,
     "k_12": 1.0,
     "k_a": 3.0,
     "vc": 10.0
@@ -18,7 +18,7 @@
     "timeLimit": 240,
     "dose": 10.0,
     "cyclePerTime": 10.0,
-    "doseTime": 216.0,
+    "doseTime": 150.0,
     "vp": 3.5,
     "vc": 1.0
   },
@@ -38,12 +38,13 @@
     }]
   },
   "looseDyn": {
-    "drug2symptom": 0.1,
+    "notused-drug2symptom": 0.1,
+    "drugPotency": 0.5,
     "morbidity": 0.1,
     "morbFactor": 0.000001,
-    "mp2symptom": 0.1,
-    "morb2mp": 0.1,
-    "mp2mpo": 20.0,
+    "notused-mp2symptom": 0.1,
+    "morb2mp": 1.0,
+    "mp2mpo": 1.0,
     "detectorSites": 20,
     "P_occupySite": 0.5,
     "P_releaseMPO": 0.5
