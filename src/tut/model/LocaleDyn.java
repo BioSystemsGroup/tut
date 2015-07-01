@@ -81,10 +81,11 @@ public class LocaleDyn extends Locale {
         @Override
         public void step(SimState s) { if (useMPO) adjustMPOs(); adjustSymptom(); }
       });
-      actions.add(new Steppable() {
-        @Override
-        public void step(SimState s) { relieveSymptom(); }
-      });
+      if (!useMPO)
+        actions.add(new Steppable() {
+          @Override
+          public void step(SimState s) { relieveSymptom(); }
+        });
     }
     @Override
     public void step(SimState s) {
@@ -96,7 +97,12 @@ public class LocaleDyn extends Locale {
       else symptomFromMP();
     }
     private void symptomFromDetectedMPO() {
-      symptom = detector.sites.stream().filter((o) -> (o != null)).count();
+      double drugPotency = model.params.looseDyn.get("drugPotency").doubleValue();
+      double drugAmount = particles.get("Drug").val;
+      //double symptomFraction = detector.sites.size() - drugPotency*drugAmount;
+      double symptomFraction = 1.0 - (drugPotency*drugAmount/detector.sites.size());
+      if (symptomFraction < 0.0) symptomFraction = 0.0;
+      symptom = symptomFraction * detector.sites.stream().filter((o) -> (o != null)).count();
       System.out.println("Comp"+id+".detector.sites.size() = "+detector.sites.size()+", symptom = "+symptom);
     }
     /**
