@@ -14,8 +14,8 @@ public class Comp implements sim.engine.Steppable {
   public java.util.LinkedHashMap<String, sim.util.MutableDouble> particles = new java.util.LinkedHashMap<>(1);
   public boolean finished = false;
   
-  public Comp(int i, double start) {
-    id = i;
+  public Comp(int ident, double start) {
+    id = ident;
     particles.put("Drug", new sim.util.MutableDouble(start));
     tut.ctrl.Batch.log("Comp("+id+", "+start+")");
   }

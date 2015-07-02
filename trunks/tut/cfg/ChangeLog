@@ -1,3 +1,7 @@
+2015-07-02  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json: Remove drug2symptom and mp2symptom.
+
 2015-07-01  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json (drugPotency): New parameter used to calculate Symptom as function of Drug.
