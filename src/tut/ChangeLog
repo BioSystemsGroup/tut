@@ -1,3 +1,19 @@
+2015-07-02  gepr  <gepr@tempusdictum.com>
+
+	* model/LooseDyn.java (Loose): Pass parameters in through setController() and setMorbidity() rather than allowing them to use the Parameters structure.
+
+	* model/LocaleDyn.java (Detector,Controller,MPO): Move out of here.  Move MPO into named inner class of Detector.
+	(useMPO): Remove all elements of the non-MPO Symptom calculations.  It's fossilized in tut-v0.6 anyway.
+	(setMorbidity(), setController()): Pass relevant parameters in rather than allowing them to access Parameters.
+	(step()): Access IVars rather than Parameters.
+
+	* model/Controller,model/Detector: Promote from inner classes to proper classes (disallowing them automatic access to LocaleDyn's variables).
+
+	* model/Comp.java: Change parameter from uninformative "i" to "ident".
+
+	* ctrl/Parameters.java (drug2symptom, mp2symptom): Remove.
+	(mp2mpo,detectorSites,P_occupySite,P_releaseMPO): Add.
+
 2015-07-01  gepr  <gepr@tempusdictum.com>
 
 	* model/LocaleDyn.java (actions, symptomFromDetectedMPO()): Only schedule relieveSymptom() when useMPO == false.  When useMPO == true, adjustSymptom() does the work of both incrementing and decrementing Symptom according to the rule: Symptom = (1-(drugPotency/|Sites|))*|occupiedSites|.

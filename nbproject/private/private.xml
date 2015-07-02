@@ -8,6 +8,8 @@
             <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/model/SlaveAgent.java</file>
             <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/model/Loose.java</file>
             <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/model/LooseDyn.java</file>
+            <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/model/Detector.java</file>
+            <file>file:/home/gepr/corp/td/ucsf/dev/tut/tut/src/tut/model/Controller.java</file>
         </group>
     </open-files>
 </project-private>

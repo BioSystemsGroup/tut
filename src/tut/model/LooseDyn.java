@@ -24,12 +24,17 @@ public class LooseDyn extends Loose {
     vc = params.loose.get("vc").doubleValue();
     LocaleDyn central = new LocaleDyn(this, 1, 0.0, vc);
     double morbidity = params.looseDyn.get("morbidity").doubleValue();
-    double sigtop = morbidity*params.looseDyn.get("morb2mp").doubleValue()*timeLimit*cyclePerTime;
-    central.setController(RELIEF_BOTTOM*dose/vc, RELIEF_TOP*dose/vc, sigtop);
+    central.setController(params.looseDyn.get("detectorSites").intValue(), 
+            params.looseDyn.get("drugPotency").doubleValue(), 
+            params.looseDyn.get("mp2mpo").doubleValue(),
+            params.looseDyn.get("P_occupySite").doubleValue(),
+            params.looseDyn.get("P_releaseMPO").doubleValue());
     LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
-    tut.ctrl.Batch.log("sigtop = "+sigtop);
 
-    periph.setMorbidity(morbidity);
+    periph.setMorbidity(morbidity,
+            params.looseDyn.get("morb2mp").doubleValue(),
+            params.looseDyn.get("morbFactor").doubleValue());
+    
     LocaleDyn sink = new LocaleDyn(this, 3, 0.0, 1.0);
     // store them in the ArrayList
     java.util.ArrayList<LocaleDyn> tmpComps = new java.util.ArrayList<>(4);
