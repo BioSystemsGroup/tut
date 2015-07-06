@@ -16,12 +16,13 @@ public class LocaleDyn extends Locale {
   LooseDyn model = null;
   Morbidity morbidity = null;
   double morb2mp = Double.NaN, morbFactor = Double.NaN;
-  public double symptom = Double.NaN;
+  public double getSymptom() {
+    return (controller == null ? 0.0 : controller.detector.sites.stream().filter(site -> site.occupant != null).count());
+  }
 
   Controller controller = null;
-  public void setController(int sn, double dpot, double mp2o, double po, double pr) { 
-    controller = new Controller(this,sn,dpot,mp2o,po,pr);
-    symptom = 0.0;
+  public void setController(int sn, double dpot, double mp2o, double po, double pr, double bd) { 
+    controller = new Controller(this,sn,dpot,mp2o,po,pr,bd);
   }
   
   public LocaleDyn(LooseDyn m, int ident, double start, double v) {

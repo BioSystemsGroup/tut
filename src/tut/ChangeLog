@@ -1,3 +1,20 @@
+2015-07-06  gepr  <gepr@tempusdictum.com>
+
+	* view/ObsSymptom.java (measure()): Use LocaleDyn.getSymptom() rather than peeking inside the object.
+
+	* model/LooseDyn.java (instantiate()): Add blockDuration to setController() call.
+
+	* model/LocaleDyn.java (getSymptom()): New query for use by the ObsSymptom in order to decouple the calculation of Symptom from the Controller and Detector actions. (Observers execute after Model elements.)
+	(blockDuration): Add to setController().
+
+	* model/Detector.java (Site): New inner class representing a detector Site.  This allows us to have an "occupant" (an MPO) and a boolean designating whether it's "blocked" or not.
+	(sites): No longer a fixed size array with some null entries.  Now an array with a fixed number of Sites inside it.
+	(releaseSites()): Look to see if the Site is occupied, pRNG draw to unset it to null.  Changed from looking for null values indexed by the array.
+	(occupySites()): No longer look for null entries in the array.  Now look for Sites with null occupants.
+
+	* model/Controller.java (constructor): Add blockDuration to constructor and call to Detector constructor.
+	(actions): Renamed adjustSymptom() -> adjustBlocks().  Place adjustBlocks() separately on the actions list from adjustMPOs().
+
 2015-07-02  gepr  <gepr@tempusdictum.com>
 
 	* model/LooseDyn.java (Loose): Pass parameters in through setController() and setMorbidity() rather than allowing them to use the Parameters structure.

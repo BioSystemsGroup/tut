@@ -23,7 +23,7 @@ class Controller extends SlaveAgent {
   int detectorSites = -Integer.MAX_VALUE;
   double drugPotency = Double.NaN, mp2mpo = Double.NaN;
   
-  public Controller(LocaleDyn c, int sn, double dpot, double mp2o, double po, double pr) {
+  public Controller(LocaleDyn c, int sn, double dpot, double mp2o, double po, double pr, double bd) {
     if (c == null) throw new RuntimeException("Containing Compartment can't be null");
     else comp = c;
     if (sn <= 0) throw new RuntimeException("DetectorSites <= 0");
@@ -33,11 +33,15 @@ class Controller extends SlaveAgent {
     if (mp2o < 0.0) throw new RuntimeException("mp2mpo < 0.0");
     else mp2mpo = mp2o;
     
-    detector = new Detector(detectorSites, po, pr);
+    detector = new Detector(detectorSites, po, pr, bd);
     
     actions.add(new Steppable() {
       @Override
-      public void step(SimState s) { adjustMPOs(); adjustSymptom(); }
+      public void step(SimState s) { adjustMPOs(); }
+    });
+    actions.add(new Steppable() {
+      @Override
+      public void step(SimState s) { adjustBlocks(s); }
     });
   }
   @Override
@@ -45,12 +49,23 @@ class Controller extends SlaveAgent {
     super.step(s);
     detector.step(s);
   }
-  private void adjustSymptom() {
+  private void adjustBlocks(SimState s) {
     double drugAmount = comp.particles.get("Drug").val;
-    //double symptomFraction = detector.sites.size() - drugPotency*drugAmount;
-    double symptomFraction = 1.0 - (drugPotency*drugAmount/detector.sites.size());
-    if (symptomFraction < 0.0) symptomFraction = 0.0;
-    comp.symptom = symptomFraction * detector.sites.stream().filter((o) -> (o != null)).count();
+    double blockFraction = drugPotency*drugAmount;
+    if (blockFraction < 0.0) blockFraction = 0.0;
+    if (blockFraction > 1.0) blockFraction = 1.0;
+    final double p_block = blockFraction;
+    System.out.println("drugAmount = "+drugAmount+", drugPotency = "+drugPotency+", p_block = "+p_block);
+    java.util.stream.Stream<Detector.Site> openSites = detector.sites.stream().filter(site -> !site.isBlocked()); 
+    java.util.stream.Stream<Detector.Site> blockedSites = detector.sites.stream().filter(site -> site.isBlocked());
+    openSites.forEach((openSite) -> {
+      if (s.random.nextDouble() < p_block) openSite.block();
+    });
+    blockedSites.forEach((blockedSite -> {
+      if (blockedSite.timer <= 0.0 && s.random.nextDouble() < 1.0-p_block)
+        blockedSite.unBlock();
+      else blockedSite.timer -= 1.0/comp.model.cyclePerTime;
+    }));
   }
   
   private void adjustMPOs() {

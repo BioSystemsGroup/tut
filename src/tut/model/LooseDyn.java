@@ -28,7 +28,8 @@ public class LooseDyn extends Loose {
             params.looseDyn.get("drugPotency").doubleValue(), 
             params.looseDyn.get("mp2mpo").doubleValue(),
             params.looseDyn.get("P_occupySite").doubleValue(),
-            params.looseDyn.get("P_releaseMPO").doubleValue());
+            params.looseDyn.get("P_releaseMPO").doubleValue(),
+            params.looseDyn.get("blockDuration").doubleValue());
     LocaleDyn periph = new LocaleDyn(this, 2, 0.0, params.loose.get("vp").doubleValue());
 
     periph.setMorbidity(morbidity,

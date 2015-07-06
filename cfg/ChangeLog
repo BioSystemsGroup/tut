@@ -1,3 +1,7 @@
+2015-07-06  gepr  <gepr@tempusdictum.com>
+
+	* parameters.json (blockDuration): New parameter specifies amount of time (1/cyclePerTime) a block lasts before it starts to make pRNG draws against p(unblock) = 1 - P(block).
+
 2015-07-02  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json: Remove drug2symptom and mp2symptom.

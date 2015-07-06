@@ -13,20 +13,45 @@ import sim.engine.Steppable;
 import sim.engine.SimState;
 
 class Detector extends SlaveAgent {
-  
+
   /**
    * Morbidity Product Object - composition of Morbidity Products
    */
   class MPO {
-    public MPO() {}
   }
 
+  /**
+   * Sites
+   */
+  class Site {
+    MPO occupant = null;
+    public void occupy(MPO o) { occupant = o; } // can be null
+    private boolean blocked = false;
+    private  double blockDuration = Double.NaN;
+    public double timer = Double.NaN;
+    public Site(MPO o, double bd) {
+      if (o != null) occupant = o;
+      if (bd > 0.0) blockDuration = bd;
+      else throw new RuntimeException("blockDuration <= 0");
+    }
+    public void block() {
+      blocked = true;
+      timer = blockDuration;
+    }
+    public void unBlock() {
+      blocked = false;
+      timer = Double.NaN;
+    }
+    public boolean isBlocked() { return blocked; }
+    
+  }
+  
   java.util.ArrayList<MPO> mpolist = new java.util.ArrayList<>();
-  final java.util.ArrayList<MPO> sites = new java.util.ArrayList<>();
+  final java.util.ArrayList<Site> sites = new java.util.ArrayList<>();
   double p_occupySite = Double.NaN, p_releaseMPO = Double.NaN;
   
-  public Detector(int sn, double po, double pr) {
-    if (sn > 0) for (int i=0 ; i<sn ; i++) sites.add(null);
+  public Detector(int sn, double po, double pr, double bd) {
+    if (sn > 0) for (int i=0 ; i<sn ; i++) sites.add(new Site(null, bd));
     else throw new RuntimeException("Invalid site number: "+sn);
     p_occupySite = po;
     p_releaseMPO = pr;
@@ -42,22 +67,27 @@ class Detector extends SlaveAgent {
   }
     
   public void releaseSites(SimState s) {
-    // copy sites, loop over non-null values, check them for release
-    shuffle(sites,s.random).stream().filter(o -> (o != null)).forEach((o) -> {
-      MPO mpo = (MPO) o;
-      if (s.random.nextDouble() < p_releaseMPO) {
-        sites.set(sites.indexOf(mpo), null); // abandon the MPO to GC
-      }
-    });
+    // copy sites, loop over Sites with MPO occupants, check them for release, regardless of blocking
+    java.util.ArrayList<Site> shuffledSites = shuffle(sites,s.random);
+    shuffledSites.stream().filter(site -> (site.occupant != null))
+            .forEach((oSite) -> {
+              if (s.random.nextDouble() < p_releaseMPO) {
+                oSite.occupant = null; // abandons MPO occupant
+              }
+            });
   }
+  
   public void occupySites(SimState s) {
+    // ∀ freeMPOs & ∀ non-blocked, unoccupied Site, draw for occupation
     for (Object o : shuffle(mpolist,s.random)) {
       MPO mpo = (MPO) o;
-      int site = sites.indexOf(null);
-      if (site == -1) break;
+      java.util.Optional op = sites.stream().filter(site
+              -> (site.occupant == null) && (!site.isBlocked())).findAny();
+      if (!op.isPresent()) break;
+      Site freeSite = (Site) op.get();
       if (s.random.nextDouble() < p_occupySite) {
-        sites.set(site,mpo);
-        mpolist.remove(mpo);  // remove it from the original list
+        freeSite.occupant = mpo;
+        mpolist.remove(mpo);  // remove it from the freeMPO list
       }
     }
   }
@@ -71,4 +101,5 @@ class Detector extends SlaveAgent {
     mpolist.clear();  // unhook them for GC
     mpolist = newlist;
   }
+  
 } // end Detector class
