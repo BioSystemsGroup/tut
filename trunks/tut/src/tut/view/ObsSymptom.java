@@ -26,7 +26,7 @@ public class ObsSymptom extends Obs {
   public java.util.ArrayList<Double> measure() {
     java.util.ArrayList<Double> retVal = new java.util.ArrayList<>();
     subject.comps.stream().forEach((c) -> {
-      retVal.add(((tut.model.LocaleDyn)c).symptom);
+      retVal.add(((tut.model.LocaleDyn)c).getSymptom());
     });
     return retVal;
   }

@@ -45,7 +45,8 @@
     "mp2mpo": 1.0,
     "detectorSites": 20,
     "P_occupySite": 0.5,
-    "P_releaseMPO": 0.5
+    "P_releaseMPO": 0.5,
+    "blockDuration": 5.0
   },
   "ldRates": {
     "MP": [{
