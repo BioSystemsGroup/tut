@@ -10,7 +10,7 @@
 package tut;
 
 public class Main {
-  public static final String MAJOR_VERSION = "TUT-v0.6";
+  public static final String MAJOR_VERSION = "TUT-v0.7";
   public static final String MINOR_VERSION = "$Revision$";
   public static void main(String[] args) {
     // run the GUI?
