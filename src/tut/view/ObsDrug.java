@@ -10,7 +10,7 @@
 package tut.view;
 
 public class ObsDrug extends Obs {
-  private final boolean fraction = true;
+  private final boolean fraction = false;
   
   public ObsDrug(String en, tut.ctrl.Parameters p) {
     super(en,p);

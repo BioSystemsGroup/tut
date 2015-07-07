@@ -5,22 +5,22 @@
   },
   "tight": {
     "timeLimit": 240,
-    "k_10": 0.1,
-    "k_21": 0.3,
-    "dose": 100.0,
     "cyclePerTime": 4.0,
+    "dose": 100.0,
     "doseTime": 150.0,
-    "k_12": 1.0,
+    "vc": 10.0,
     "k_a": 3.0,
-    "vc": 10.0
+    "k_12": 1.0,
+    "k_21": 0.3,
+    "k_10": 0.1
   },
   "loose": {
     "timeLimit": 240,
-    "dose": 10.0,
     "cyclePerTime": 10.0,
+    "dose": 10.0,
     "doseTime": 150.0,
-    "vp": 3.5,
-    "vc": 1.0
+    "vc": 1.0,
+    "vp": 3.5
   },
   "lRates": {
     "Drug": [{
@@ -50,14 +50,14 @@
   },
   "ldRates": {
     "MP": [{
-      "key": { "from": "central", "to": "sink" },
-      "value": 0.01
+      "key": { "from": "source", "to": "central" },
+      "value": 0.3
     }, {
       "key": { "from": "central", "to": "periph" },
       "value": 0.1
     }, {
-      "key": { "from": "source", "to": "central" },
-      "value": 0.3
+      "key": { "from": "central", "to": "sink" },
+      "value": 0.01
     }, {
       "key": { "from": "periph", "to": "central" },
       "value": 0.03

@@ -1,3 +1,7 @@
+2015-07-07  gepr  <gepr@tempusdictum.com>
+
+	* case-??.json: Modify according to prototypical parameters.json file.
+
 2015-07-06  gepr  <gepr@tempusdictum.com>
 
 	* parameters.json (blockDuration): New parameter specifies amount of time (1/cyclePerTime) a block lasts before it starts to make pRNG draws against p(unblock) = 1 - P(block).

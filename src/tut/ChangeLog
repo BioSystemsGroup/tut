@@ -1,3 +1,9 @@
+2015-07-07  gepr  <gepr@tempusdictum.com>
+
+	* view/ObsDrug.java (fraction): Switch back to concentration/amount.
+
+	* Main.java (Main): Bump MAJOR_VERSION.
+
 2015-07-06  gepr  <gepr@tempusdictum.com>
 
 	* view/ObsSymptom.java (measure()): Use LocaleDyn.getSymptom() rather than peeking inside the object.
