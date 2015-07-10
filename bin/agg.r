@@ -4,7 +4,7 @@
 ###
 ## Read multiple *.csv files, average the 1st 1/3, 2/3, then all of them.
 ##
-## Time-stamp: <2015-06-08 13:09:21 gepr>
+## Time-stamp: <2015-07-09 15:33:49 gepr>
 ##
 ##dev.off()
 
@@ -45,7 +45,9 @@ roundDown <- function(x) {
 ## get the title from the 1st argv
 ###
 first <- regexpr("case-??",argv[1])[1]
-exp.title <- substr(argv[1],first,first+6)
+last <- regexpr("-*x",argv[1])[1]
+##exp.title <- substr(argv[1],first,first+6)
+exp.title <- substr(argv[1],first,last)
 
 ###
 ## read data & test for matching columns
@@ -85,7 +87,7 @@ if (length(grep("fract", cols)) < 1) {
 ###
 if (!file.exists("graphics")) dir.create("graphics")
 
-fileName <- paste("graphics/",exp.title,"-μ-", length(dat), "-trials", sep="")
+fileName <- paste("graphics/",exp.title,"-μ-", length(dat), "-trials-%02d", sep="")
 plot.title <- bquote(.(paste(exp.title,"μ"))[.(length(dat))])
 if (PNG) {
   png(paste(fileName, ".png", sep=""), width=1600, height=1236)
