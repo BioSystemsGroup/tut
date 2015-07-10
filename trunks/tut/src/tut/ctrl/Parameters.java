@@ -51,6 +51,8 @@ public class Parameters {
     looseDyn.put("detectorSites", -Integer.MAX_VALUE);
     looseDyn.put("P_occupySite", Double.MIN_NORMAL);
     looseDyn.put("P_releaseMPO", Double.MIN_NORMAL);
+    looseDyn.put("blockDurationMin", Double.MIN_NORMAL);
+    looseDyn.put("blockDurationMax", Double.MIN_NORMAL);
     
     ldRates.put("MP", specNet());
   }

@@ -4,7 +4,7 @@
 ###
 ## Read multiple *.csv files, average the 1st 1/3, 2/3, then all of them.
 ##
-## Time-stamp: <2015-07-09 15:33:49 gepr>
+## Time-stamp: <2015-07-10 10:47:03 gepr>
 ##
 ##dev.off()
 
@@ -75,10 +75,12 @@ for (file in argv) {
 min.y <- roundDown(min.y)
 
 ###
-## set y axis units depending on column names
+## set y axis units depending on column names and filename
 ###
 if (length(grep("fract", cols)) < 1) {
-  ylab <- "C (mg/L)"
+  if (length(grep("Symptom",argv[1])) < 1)
+    ylab <- "C (mg/L)"
+  else ylab <- "Amount"
 } else
   ylab <- "Dose Fraction"
 

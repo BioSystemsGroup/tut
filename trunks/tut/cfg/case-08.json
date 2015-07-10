@@ -1,10 +1,9 @@
 {
   "version": "TUT-v0.4 Subversion$Revision: 753 $",
   "batch": {
-    "seed": 1234567890
   },
   "tight": {
-    "timeLimit": 240,
+    "timeLimit": 400,
     "cyclePerTime": 4.0,
     "dose": 100.0,
     "doseTime": 150.0,
@@ -13,9 +12,9 @@
     "k_12": 0.3,
     "k_21": 0.1,
     "k_10": 3.0
-   },
+  },
   "loose": {
-    "timeLimit": 240,
+    "timeLimit": 400,
     "cyclePerTime": 10.0,
     "dose": 10.0,
     "doseTime": 150.0,
@@ -39,14 +38,15 @@
   },
   "looseDyn": {
     "drugPotency": 0.5,
-    "morbidity": 0.1,
+    "morbidity": 1.0,
     "morbFactor": 0.000001,
     "morb2mp": 1.0,
     "mp2mpo": 1.0,
     "detectorSites": 20,
     "P_occupySite": 0.5,
     "P_releaseMPO": 0.5,
-    "blockDuration": 5.0
+    "blockDurationMin": 1.0,
+    "blockDurationMax": 10.0
   },
   "ldRates": {
     "MP": [{

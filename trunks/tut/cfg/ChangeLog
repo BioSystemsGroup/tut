@@ -1,3 +1,8 @@
+2015-07-10  gepr  <gepr@tempusdictum.com>
+
+	* case-??.json: Remove seeds.
+	* *.json: Set morbidity=1.0, set timeLimit=400, add blockDuration[Min|Max] for new uniform pRNG draw for blockDuration.
+
 2015-07-07  gepr  <gepr@tempusdictum.com>
 
 	* case-??.json: Modify according to prototypical parameters.json file.

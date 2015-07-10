@@ -21,9 +21,10 @@ class Controller extends SlaveAgent {
   LocaleDyn comp = null;
   Detector detector = null;
   int detectorSites = -Integer.MAX_VALUE;
+  double blockDurationMin = Double.NaN, blockDurationMax = Double.NaN;
   double drugPotency = Double.NaN, mp2mpo = Double.NaN;
   
-  public Controller(LocaleDyn c, int sn, double dpot, double mp2o, double po, double pr, double bd) {
+  public Controller(LocaleDyn c, int sn, double dpot, double mp2o, double po, double pr, double bdmin, double bdmax) {
     if (c == null) throw new RuntimeException("Containing Compartment can't be null");
     else comp = c;
     if (sn <= 0) throw new RuntimeException("DetectorSites <= 0");
@@ -32,8 +33,10 @@ class Controller extends SlaveAgent {
     else drugPotency = dpot;
     if (mp2o < 0.0) throw new RuntimeException("mp2mpo < 0.0");
     else mp2mpo = mp2o;
+    if (bdmin < 0.0 || bdmin > bdmax) throw new RuntimeException("bodyDuration ∈ ["+bdmin+","+bdmax+") invalid interval!");
+    else { blockDurationMin = bdmin; blockDurationMax = bdmax; }
     
-    detector = new Detector(detectorSites, po, pr, bd);
+    detector = new Detector(detectorSites, po, pr);
     
     actions.add(new Steppable() {
       @Override
@@ -55,11 +58,13 @@ class Controller extends SlaveAgent {
     if (blockFraction < 0.0) blockFraction = 0.0;
     if (blockFraction > 1.0) blockFraction = 1.0;
     final double p_block = blockFraction;
-    System.out.println("drugAmount = "+drugAmount+", drugPotency = "+drugPotency+", p_block = "+p_block);
+    //System.out.println("drugAmount = "+drugAmount+", drugPotency = "+drugPotency+", p_block = "+p_block);
     java.util.stream.Stream<Detector.Site> openSites = detector.sites.stream().filter(site -> !site.isBlocked()); 
     java.util.stream.Stream<Detector.Site> blockedSites = detector.sites.stream().filter(site -> site.isBlocked());
     openSites.forEach((openSite) -> {
-      if (s.random.nextDouble() < p_block) openSite.block();
+      double draw = s.random.nextDouble();
+      double bd = blockDurationMin + draw*(blockDurationMax-blockDurationMin);
+      if (s.random.nextDouble() < p_block) openSite.block(bd);
     });
     blockedSites.forEach((blockedSite -> {
       if (blockedSite.timer <= 0.0 && s.random.nextDouble() < 1.0-p_block)

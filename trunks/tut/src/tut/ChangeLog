@@ -1,3 +1,12 @@
+2015-07-10  gepr  <gepr@tempusdictum.com>
+
+	* model/LocaleDyn, model/LooseDyn (setController()): Receive blockDuration[Min|Max] instead of blockDuration.
+
+	* model/Detector.java (Site.block()): Remove blockDuration parameter.  Receive dynamic blockDuration as parameter to block().
+	* model/Controller.java (blockDuration[Min|Max]): Don't send blockDuration to Detector constructor.  Send through block() method.  Replace fixed blockDuration with a uniform pRNG draw between min/max.
+
+	* ctrl/Parameters.java (blockDuration[Min|Max]): Change fixed blockDuration to a min/max pair.
+
 2015-07-07  gepr  <gepr@tempusdictum.com>
 
 	* view/ObsDrug.java (fraction): Switch back to concentration/amount.
