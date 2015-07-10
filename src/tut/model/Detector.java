@@ -27,16 +27,13 @@ class Detector extends SlaveAgent {
     MPO occupant = null;
     public void occupy(MPO o) { occupant = o; } // can be null
     private boolean blocked = false;
-    private  double blockDuration = Double.NaN;
     public double timer = Double.NaN;
-    public Site(MPO o, double bd) {
+    public Site(MPO o) {
       if (o != null) occupant = o;
-      if (bd > 0.0) blockDuration = bd;
-      else throw new RuntimeException("blockDuration <= 0");
     }
-    public void block() {
+    public void block(double bd) {
       blocked = true;
-      timer = blockDuration;
+      timer = bd;
     }
     public void unBlock() {
       blocked = false;
@@ -50,8 +47,8 @@ class Detector extends SlaveAgent {
   final java.util.ArrayList<Site> sites = new java.util.ArrayList<>();
   double p_occupySite = Double.NaN, p_releaseMPO = Double.NaN;
   
-  public Detector(int sn, double po, double pr, double bd) {
-    if (sn > 0) for (int i=0 ; i<sn ; i++) sites.add(new Site(null, bd));
+  public Detector(int sn, double po, double pr) {
+    if (sn > 0) for (int i=0 ; i<sn ; i++) sites.add(new Site(null));
     else throw new RuntimeException("Invalid site number: "+sn);
     p_occupySite = po;
     p_releaseMPO = pr;

@@ -1,3 +1,7 @@
+2015-07-10  gepr  <gepr@tempusdictum.com>
+
+	* agg.r: Change y axis label to generic "amount" if the 1st filename contains "Symptom".
+
 2015-07-09  gepr  <gepr@tempusdictum.com>
 
 	* mexplot.r: New script to automate multi-trial Symptom vs. morbidity plots.  Might work for other variables in the looseDyn parameter set ... didn't test that though.

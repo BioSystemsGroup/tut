@@ -21,8 +21,8 @@ public class LocaleDyn extends Locale {
   }
 
   Controller controller = null;
-  public void setController(int sn, double dpot, double mp2o, double po, double pr, double bd) { 
-    controller = new Controller(this,sn,dpot,mp2o,po,pr,bd);
+  public void setController(int sn, double dpot, double mp2o, double po, double pr, double bdmin, double bdmax) { 
+    controller = new Controller(this,sn,dpot,mp2o,po,pr,bdmin,bdmax);
   }
   
   public LocaleDyn(LooseDyn m, int ident, double start, double v) {
