@@ -74,19 +74,26 @@ public class Tight extends Model {
 
   Function<Double, Double> concCent() {
     return (Double c) -> {
+      double result = 0.0;
       double t = c/cyclePerTime-dose_time;
-      if (dosed) return A*Math.exp(-α*t) + B*Math.exp(-β*t) - (A+B)*Math.exp(-k_a*t);
-      else return 0.0;
+      if (dosed) {
+        result = A*Math.exp(-α*t) + B*Math.exp(-β*t) - (A+B)*Math.exp(-k_a*t);
+        tut.ctrl.Batch.log("cycle "+c+": concCent("+t+") => "+result);
+      }
+      return result;
     };
   }
   Function<Double, Double> concPeriph() {
     return (Double c) -> {
+      double result = 0.0;
       double t = c/cyclePerTime-dose_time;
-      if (dosed)
-        return (A*k_21)/(k_21-α) * Math.exp(-α*t)
+      if (dosed) {
+        result = (A*k_21)/(k_21-α) * Math.exp(-α*t)
                 + (B*k_21)/(k_21-β) * Math.exp(-β*t)
                 + ((B-A)*k_21)/(k_21-k_a) * Math.exp(-k_a*t);
-      else return 0.0;
+        tut.ctrl.Batch.log("cycle "+c+": concPeriph("+t+") => "+result);
+      }
+      return result;
     };
   }
 }

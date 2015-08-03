@@ -1,3 +1,7 @@
+2015-08-03  gepr  <gepr@tempusdictum.com>
+
+	* model/Tight.java (concCent(), concPeriph()): Report numerical results of the central and peripheral functions to the Batch.log.
+
 2015-07-10  gepr  <gepr@tempusdictum.com>
 
 	* model/LocaleDyn, model/LooseDyn (setController()): Receive blockDuration[Min|Max] instead of blockDuration.

@@ -1,14 +1,15 @@
-#! /usr/bin/Rscript
-###!/bin/bash setR
+#!/bin/bash setR
+###! /usr/bin/Rscript
+
 
 ###
 ## Read multiple *.csv files, average the 1st 1/3, 2/3, then all of them.
 ##
-## Time-stamp: <2015-07-10 10:47:03 gepr>
+## Time-stamp: <2015-07-29 11:38:11 gepr>
 ##
 ##dev.off()
 
-argv <- commandArgs(TRUE)
+##argv <- commandArgs(TRUE)
 
 if (length(argv) < 2) {
     print("Usage: agg.r <CSV files>")
@@ -64,6 +65,7 @@ for (file in argv) {
     quit()
   } else
     cols <- columns
+
   max.y <- max(max.y, max(dat[[fnum]][,3:4]))
   col3 <- dat[[fnum]][,3]
   min.y <- min(min.y, min(col3[col3 != 0]))
@@ -80,7 +82,7 @@ min.y <- roundDown(min.y)
 if (length(grep("fract", cols)) < 1) {
   if (length(grep("Symptom",argv[1])) < 1)
     ylab <- "C (mg/L)"
-  else ylab <- "Amount"
+  else ylab <- "Symptom"
 } else
   ylab <- "Dose Fraction"
 
@@ -96,8 +98,8 @@ if (PNG) {
 } else svg(paste(fileName, ".svg", sep=""), width=8, height=8)
 par(mar=c(5,6,4,2), cex.main=2, cex.axis=1, cex.lab=2)
 
-cols[3] <- "Central"
-cols[4] <- "Peripheral"
+cols[3] <- "Loose.Central"
+cols[4] <- "Loose.Peripheral"
 
 means <- colAvg(dat[1:length(dat)])
 
@@ -115,7 +117,8 @@ if (SHOWRAW) {
   }
 } else {
   ## plot the means for compartment 2
-  plot(means[,1],means[,3], type="l", log="y", ylim=c(min.y,max.y),
+  plot(means[,1],means[,3], type="l", log="y",
+       ylim=c(min.y,max.y),
        xlab="Time (hr)", ylab=ylab, main=plot.title)
 }
 ###
@@ -123,5 +126,22 @@ if (SHOWRAW) {
 ###
 lines(means[,1],means[,4], lty=2)
 
-legend("topright", legend=c(cols[3], cols[4]), lty=1:2, cex=1)
 
+if (SHOWRAW) {
+  legend("topright", legend=c(cols[3], cols[4]), lty=1:2, cex=1)
+} else {
+  leg.elements <- c(cols[3:4])
+  leg.types <- 1:2
+  legend("topright", legend=leg.elements, lty=leg.types, cex=1)
+}
+
+###
+## For use when you want to interactively plot Tight Drug curves
+## along with the ones you already included.  Load tight with
+## something like:
+## tight <- read.csv("case-04-00x/case-04-Tight-ObsDrug.csv")
+###
+extratight <- function() {
+  lines(tight[,1],tight[,2],lty=3)
+  lines(tight[,1],tight[,3],lty=4)
+}

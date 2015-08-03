@@ -1,3 +1,10 @@
+2015-08-03  gepr  <gepr@tempusdictum.com>
+
+	* mexplot.r: Change interval to [,), open on the top.  Add ability to plot mins and maxes for each time.
+
+	* agg.r (ylab): If "Symptom" exists in the file name, use it for the y axis label.
+	(extratight()): Interactive function to help with adding Tight curves to the plot.
+
 2015-07-10  gepr  <gepr@tempusdictum.com>
 
 	* agg.r: Change y axis label to generic "amount" if the 1st filename contains "Symptom".
