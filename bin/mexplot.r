@@ -4,7 +4,7 @@
 ##
 # Read multiple *.csv files and plot given columns vs the 1st.
 #
-# Time-stamp: <2015-07-09 14:16:15 gepr>
+# Time-stamp: <2015-07-14 15:32:07 gepr>
 #
 #dev.off()
 
@@ -61,17 +61,34 @@ for (mNdx in 1:length(dep.dfs)) { # pretend for now
   rm(deps)
 }
 
-time.min = 30.0
-time.max = 31.9
+time.min = 98.0
+time.max = 100.0
 attach(dep.dfs[[1]][[1]])
 time.min.ndx <- which(Time == time.min)
-time.max.ndx <- which(Time == time.max)
+time.max.ndx <- which(Time == time.max)-1
 detach(dep.dfs[[1]][[1]])
 
 dep.sliced.avg <- vector()
+dep.sliced.max <- vector()
+dep.sliced.min <- vector()
 for (ndx in 1:length(dep.dfs.avg)) {
   dep.sliced.avg[ndx] <- mean(dep.dfs.avg[[ndx]][time.min.ndx:time.max.ndx])
+  trialMax <- -Inf
+  trialMin <- Inf
+  for (trial in length(dep.dfs[[ndx]])) {
+    trialMax <- max(trialMax, max(dep.dfs[[ndx]][[trial]][time.min.ndx:time.max.ndx,3]))
+    trialMin <- min(trialMin, min(dep.dfs[[ndx]][[trial]][time.min.ndx:time.max.ndx,3]))
+  }
+  dep.sliced.max[ndx] <- trialMax
+  dep.sliced.min[ndx] <- trialMin
 }
 
-plot(ind.vals,dep.sliced.avg,xlab=ind.var, ylab=paste("μ_Symptom∈[",time.min,",",time.max,"]"))
+fileName <- paste("graphics/symptom-vs-",ind.var,"[",time.min,",",time.max,")",sep="")
+svg(paste(fileName, ".svg", sep=""), width=8, height=8)
+par(mar=c(5,6,4,2), cex.main=2, cex.axis=1, cex.lab=2)
 
+plot(ind.vals,dep.sliced.avg,xlab=ind.var, ylab=paste("μ(Symptom(t)) t∈[",time.min,",",time.max,")"), type="p", pch=".",ylim=c(0,20))
+##points(ind.vals, dep.sliced.max, pch="-")
+##points(ind.vals, dep.sliced.min, pch="-")
+
+q()
