@@ -1,3 +1,7 @@
+2016-09-29-16:08  gepr  <gepr@tempusdictum.com>
+
+	* run.sh: Execution script copied/modified from islj.
+
 2015-08-03  gepr  <gepr@tempusdictum.com>
 
 	* mexplot.r: Change interval to [,), open on the top.  Add ability to plot mins and maxes for each time.
